@@ -1,0 +1,9 @@
+extends includes/layout
+block main-content
+    header
+        .container
+    section
+        div.createbox
+            form(name="create", action="/dojo/vim/create", method="post")
+                input(type="text", name="username")
+                input(type="submit", value="create")

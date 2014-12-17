@@ -1,0 +1,12 @@
+{
+  "name": "hotkey-ninja",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+	"bower": "^1.3.12",
+	"express": "^4.9.8",
+	"jade": "1.8.1",
+	"mongoose": "3.8.20",
+	"socket.io": "1.2.1"
+  }
+}
