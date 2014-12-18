@@ -2,12 +2,15 @@
     var roomId = 'notepad++/1111';
     var username = '';
     var opponent = '';
-    var questionNumber = 0;
 
-    // some more jquery objects
+    // cached elements
     var login = $('.login'),
+        invite = $('.invite'),
+        queryArea = $('.query'),
+        link = $('#share-link'),
         loginForm = $('.loginForm'),
-        opponentSpan = $('#opponent'),
+        opponentArea = $('.opponent'),
+        opponentSpan = $('#opponent-name'),
         usernameInput = $('#username'),
         answerForm = $('#answer-form'),
         answerInput = $('#answer');
@@ -28,7 +31,6 @@
 
             // Submit answer
             socket.emit('answer', {
-                number: questionNumber,
                 answer: answer,
                 user: username
             });
@@ -60,10 +62,21 @@
                 console.log("Please enter a nick name longer than 1 character!");
                 return;
             }
+            if (data.players === 0) {
+                // show invitation with link pointing to this game room
+                invite.css('display', 'block');
+                link.text(window.location.href);
+            }
+            else {
+                // remove invitation
+                invite.remove();
+            }
+
             if (data.players === 1 && username == data.user) {
                 console.log("There is a player with username \"" + username + "\" in this game!");
                 return;
             }
+            // remove login form
             login.remove();
 
             // call the server-side function 'join' and send user's id
@@ -73,24 +86,30 @@
 
     socket.on('start', function (data) {
         if (data.id == roomId) {
+            var totalQueries = data.total;
+            console.log(totalQueries);
+
             if (username === data.users[0]) {
                 opponent = data.users[1];
             }
             else {
                 opponent = data.users[0];
             }
+            // show opponent
+            opponentArea.css('display', 'block');
             opponentSpan.text(opponent);
+
+            // show query area
+            queryArea.css('display', 'block')
         }
     });
 
     socket.on('query', function (data) {
-        questionNumber = data.number;
-
         console.log(data.query);
     });
 
     socket.on('game over', function (data) {
-        console.log('Game ended.');
+        console.log('Game over!');
         console.log(data);
     });
 
@@ -101,7 +120,6 @@
     });
 
     socket.on('progress', function (data) {
-        console.log('progress called');
         console.log(data);
     });
 

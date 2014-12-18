@@ -9,7 +9,7 @@ module.exports = function (server) {
         // When the client emits the 'load' event, reply with the
         // number of players in this game
         socket.on('load', function (data) {
-            var room = findClientsSocket(io, data, '/socket');
+            var room = findClientsSocket(data, '/socket');
             switch (room.length) {
                 case 0:
                     socket.emit('loaded', {players: 0});
@@ -31,7 +31,7 @@ module.exports = function (server) {
         // and add him to the room
         socket.on('join', function (data) {
             // find game room
-            var clients = findClientsSocket(io, data.id, '/socket');
+            var clients = findClientsSocket(data.id, '/socket');
 
             // Only two people per game are allowed
             if (clients.length >= 2) {
@@ -66,75 +66,77 @@ module.exports = function (server) {
                     var shortcuts = model.shortcuts;
 
                     // get active players client sockets
-                    clients = findClientsSocket(io, data.id, '/socket');
+                    clients = findClientsSocket(data.id, '/socket');
 
                     // if both players are present start the game
                     if (clients.length === 2) {
                         // attach shortcuts list
                         for (var i = 0; i < clients.length; i++) {
                             clients[i].shortcuts = shortcuts;
+                            clients[i].progress = 0;
+                            clients[i].correct = 0;
                         }
 
                         // Send the start event to all players in the
                         // game, along with a list of players that are in it
                         game.in(data.id).emit('start', {
                             id: data.id,
-                            users: users
+                            users: users,
+                            total: shortcuts.length
                         });
 
                         // start first query
                         game.in(data.id).emit('query', {
-                            number: 0,
-                            total: shortcuts.length,
                             query: shortcuts[0].action
                         });
                     }
-
                 });
             }
         });
 
         // Handle the sending of shortcuts
         socket.on('answer', function (data) {
-            var shortcutIndex = data.number;
-            var combination = data.answer;
-
             // get the room shortcuts
             var shortcuts = socket.shortcuts;
-
             if (!shortcuts) {
                 console.log('Undefined shortcuts');
                 return;
             }
-            var expected = shortcuts[shortcutIndex].combination;
 
-            // move to next shortcut query
-            shortcutIndex += 1;
-
-            // generate response
-            var response = {
-                success: false,
-                id: data.id,
-                user: socket.username
-            };
-            response['success'] = combination === expected;
-
-            // notify all players for the new progress
-            game.in(this.room).emit('progress', response);
-
-            if (shortcutIndex <= shortcuts.length) {
-                // ask new question
-                socket.emit('query', {
-                    number: shortcutIndex,
-                    total: shortcuts.length,
-                    query: shortcuts[shortcutIndex].action
+            // check for end of game
+            if (socket.progress + 1 >= shortcuts.length) {
+                var winner = getWinner(io, socket.room);
+                game.in(socket.room).emit('game over', {
+                    winner: winner.username
                 });
+                return;
             }
-            else {
-                socket.emit('game over');
-                console.log('game over for: ' + data.id);
+
+            // check answer
+            var expected = shortcuts[socket.progress].combination;
+            var isCorrect = (data.answer === expected);
+            if (isCorrect) {
+                socket.correct += 1;
             }
+            // increment progress
+            socket.progress += 1;
+
+            // generate result response and notify
+            // all users in the game
+            game.in(socket.room).emit('progress', {
+                id: data.id,
+                correct: socket.correct,
+                user: socket.username
+            });
+
+            // send next query
+            socket.emit('query', {
+                query: shortcuts[socket.progress].action
+            });
+
+
         });
+
 
         // Somebody left the game
         socket.on('disconnect', function () {
@@ -150,7 +152,21 @@ module.exports = function (server) {
         });
     });
 
-    function findClientsSocket(io, roomId, namespace) {
+    function getWinner(io, roomId) {
+        var clients = findClientsSocket(roomId, '/socket');
+        var max = 0;
+        var winnerIndex = 0;
+        //TODO - handle equal score
+        for (var i = 0; i < clients.length; i++) {
+            if (max < clients[i].correct) {
+                max = clients[i].correct;
+                winnerIndex = i;
+            }
+        }
+        return clients[winnerIndex];
+    }
+
+    function findClientsSocket(roomId, namespace) {
         var res = [],
             ns = io.of(namespace || "/"); // the default namespace is "/"
         if (ns) {

@@ -8,11 +8,17 @@ block main-content
                 input#username(type="text", placeholder="Username")
                 input#submit-name(type="submit", value="OK")
 
-        .opponent
-            h4 Opponent
-            span#opponent
+        .invite(style='display: none')
+            h2 Oops, there are no other people in this game!
+                h5 Invite a friend by sending them this URL
+                .link
+                    a#share-link(title='Invite a friend', href='')
 
-        .query
+        .opponent(style='display: none')
+            h4 Opponent:
+                span#opponent-name
+
+        .query(style='display: none')
             span#question
             br
             form#answer-form
