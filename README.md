@@ -41,9 +41,8 @@ Example:
 Notifies the other person in the game room that his partner has left
 
 ##Client
-
 ### 'loaded' event
-Received players in the game.
+Receives game setup.
 
 Example:
 
@@ -56,7 +55,7 @@ Example:
 ```
 
 ### 'start' event
-Starts the game, by sending a list of players and total queries count.
+Occurs when game is started.
 
 Example:
 
@@ -69,7 +68,7 @@ Example:
 ```
 
 ### 'query' event
-Client must handle the query (shortcut action)
+Occurs when a new query is received.
 
 Example:
 
@@ -78,7 +77,6 @@ Example:
     "query": "Select all text."
 }
 ```
-
 ### 'progress' event
 Reports progress change of a player to all players in the current game room.
 
@@ -91,17 +89,15 @@ Example:
     "user": "Opponent"
 }
 ```
-
-
 ### 'game over' event
-Indicates end of game.
+Indicates end of game and the winner.
 
 Example:
-
+```json
 {
     "winner": "Player"
 }
-
+```
 ### 'leave' event
 If a player leaves the game room this event will occur.
 
@@ -113,6 +109,5 @@ Example:
     "user": "Player"
 }
 ```
-
 ### 'full' event
 Indicates that the game is full, and no more players can join it.
