@@ -97,54 +97,54 @@ module.exports = function (server) {
         // Handle the sending of shortcuts
         socket.on('answer', function (data) {
             // get the room shortcuts
-            var shortcuts = socket.shortcuts;
+            var shortcuts = this.shortcuts;
             if (!shortcuts) {
                 console.log('Undefined shortcuts');
                 return;
             }
 
-            // check for end of game
-            if (socket.progress + 1 >= shortcuts.length) {
-                var winner = getWinner(io, socket.room);
+            var progress = this.progress;
+            if (progress < shortcuts.length - 1) {
+                // check answer
+                var expected = shortcuts[progress].combination;
+                var isCorrect = (data.answer === expected);
+                if (isCorrect) {
+                    socket.correct += 1;
+                }
+
+                // generate result response and notify
+                // all users in the game
+                game.in(this.room).emit('progress', {
+                    id: data.id,
+                    correct: socket.correct,
+                    user: socket.username
+                });
+
+                var next = progress + 1;
+
+                // increment progress
+                socket.progress = next;
+
+                // send next query
+                socket.emit('query', {
+                    query: shortcuts[next].action
+                });
+            }
+            else {
+                var winner = getWinner(socket.room);
                 game.in(socket.room).emit('game over', {
                     winner: winner.username
                 });
-                return;
             }
-
-            // check answer
-            var expected = shortcuts[socket.progress].combination;
-            var isCorrect = (data.answer === expected);
-            if (isCorrect) {
-                socket.correct += 1;
-            }
-            // increment progress
-            socket.progress += 1;
-
-            // generate result response and notify
-            // all users in the game
-            game.in(socket.room).emit('progress', {
-                id: data.id,
-                correct: socket.correct,
-                user: socket.username
-            });
-
-            // send next query
-            socket.emit('query', {
-                query: shortcuts[socket.progress].action
-            });
-
-
         });
-
 
         // Somebody left the game
         socket.on('disconnect', function () {
             // Notify the other person in the game room
             // that his partner has left
-            socket.broadcast.to(this.room).emit('leave', {
-                room: this.room,
-                user: this.username
+            socket.broadcast.to(socket.room).emit('leave', {
+                room: socket.room,
+                user: socket.username
             });
 
             // leave the room
@@ -152,10 +152,11 @@ module.exports = function (server) {
         });
     });
 
-    function getWinner(io, roomId) {
+    function getWinner(roomId) {
         var clients = findClientsSocket(roomId, '/socket');
         var max = 0;
         var winnerIndex = 0;
+
         //TODO - handle equal score
         for (var i = 0; i < clients.length; i++) {
             if (max < clients[i].correct) {

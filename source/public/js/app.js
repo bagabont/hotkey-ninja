@@ -2,18 +2,23 @@
     var roomId = 'notepad++/1111';
     var username = '';
     var opponent = '';
+    var total = 0;
 
     // cached elements
     var login = $('.login'),
         invite = $('.invite'),
         queryArea = $('.query'),
+        shortcutAction = $('#shortcut-action'),
         link = $('#share-link'),
         loginForm = $('.loginForm'),
-        opponentArea = $('.opponent'),
-        opponentSpan = $('#opponent-name'),
+        playersArea = $('.players'),
+        opponentName = $('#opponent-name'),
+        playerName = $('#player-name'),
         usernameInput = $('#username'),
         answerForm = $('#answer-form'),
-        answerInput = $('#answer');
+        answerInput = $('#answer'),
+        winnerName = $('#winner-name'),
+        winnerArea = $('.winner');
 
     answerForm.keypress(function (e) {
         // submit answer on enter
@@ -67,10 +72,6 @@
                 invite.css('display', 'block');
                 link.text(window.location.href);
             }
-            else {
-                // remove invitation
-                invite.remove();
-            }
 
             if (data.players === 1 && username == data.user) {
                 console.log("There is a player with username \"" + username + "\" in this game!");
@@ -86,8 +87,7 @@
 
     socket.on('start', function (data) {
         if (data.id == roomId) {
-            var totalQueries = data.total;
-            console.log(totalQueries);
+            total = data.total;
 
             if (username === data.users[0]) {
                 opponent = data.users[1];
@@ -95,9 +95,14 @@
             else {
                 opponent = data.users[0];
             }
-            // show opponent
-            opponentArea.css('display', 'block');
-            opponentSpan.text(opponent);
+
+            // remove invitation
+            invite.remove();
+
+            // show players area
+            playersArea.css('display', 'block');
+            opponentName.text(opponent + '[' + 0 + '/' + total + ']');
+            playerName.text(username + '[' + 0 + '/' + total + ']');
 
             // show query area
             queryArea.css('display', 'block')
@@ -105,12 +110,13 @@
     });
 
     socket.on('query', function (data) {
-        console.log(data.query);
+        shortcutAction.text(data.query);
     });
 
     socket.on('game over', function (data) {
-        console.log('Game over!');
-        console.log(data);
+        queryArea.remove();
+        winnerName.text(data.winner);
+        winnerArea.css('display', 'block');
     });
 
     socket.on('leave', function (data) {
@@ -120,7 +126,12 @@
     });
 
     socket.on('progress', function (data) {
-        console.log(data);
+        if (data.user === username) {
+            playerName.text(username + ' Correct: [' + data.correct + '/' + total + ']');
+        }
+        if (data.user === opponent) {
+            opponentName.text(opponent + ' Correct: [' + data.correct + '/' + total + ']');
+        }
     });
 
     socket.on('full', function (data) {
