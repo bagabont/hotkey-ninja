@@ -1,9 +1,25 @@
 extends includes/layout
 block main-content
-    header
-        .container
-    section
-        div.linkbox
+    section.section
+        .login
+            h4 Enter username
+            br
+            form.loginForm
+                input#username(type="text", placeholder="Username")
+                input#submit-name(type="submit", value="OK")
 
+        .opponent
+            h4 Opponent
+            span#opponent
+
+        .query
+            span#question
+            br
+            form#answer-form
+                input#answer(type="text", placeholder="Enter combination...")
+                br
+                input#submit-answer(type="submit", value="Answer")
+
+    script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
     script(type="text/javascript" src="/socket.io/socket.io.js")
     script(type="text/javascript" src="/js/app.js")
