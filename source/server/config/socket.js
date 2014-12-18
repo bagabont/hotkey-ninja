@@ -9,15 +9,15 @@ module.exports = function (server) {
         // When the client emits the 'load' event, reply with the
         // number of players in this game
         socket.on('load', function (data) {
-            var room = findClientsSocket(data, '/socket');
-            switch (room.length) {
+            var clients = findClientsSocket(data, '/socket');
+            switch (clients.length) {
                 case 0:
                     socket.emit('loaded', {players: 0});
                     break;
                 case 1:
                     socket.emit('loaded', {
                         players: 1,
-                        user: room[0].username,
+                        user: clients[0].username,
                         id: data
                     });
                     break;
@@ -74,7 +74,7 @@ module.exports = function (server) {
                         for (var i = 0; i < clients.length; i++) {
                             clients[i].shortcuts = shortcuts;
                             clients[i].progress = 0;
-                            clients[i].correct = 0;
+                            clients[i].score = 0;
                         }
 
                         // Send the start event to all players in the
@@ -109,14 +109,14 @@ module.exports = function (server) {
                 var expected = shortcuts[progress].combination;
                 var isCorrect = (data.answer === expected);
                 if (isCorrect) {
-                    socket.correct += 1;
+                    socket.score += 1;
                 }
 
                 // generate result response and notify
                 // all users in the game
                 game.in(this.room).emit('progress', {
                     id: data.id,
-                    correct: socket.correct,
+                    score: socket.score,
                     user: socket.username
                 });
 
@@ -159,8 +159,8 @@ module.exports = function (server) {
 
         //TODO - handle equal score
         for (var i = 0; i < clients.length; i++) {
-            if (max < clients[i].correct) {
-                max = clients[i].correct;
+            if (max < clients[i].score) {
+                max = clients[i].score;
                 winnerIndex = i;
             }
         }

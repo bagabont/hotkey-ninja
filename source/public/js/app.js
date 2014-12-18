@@ -127,10 +127,10 @@
 
     socket.on('progress', function (data) {
         if (data.user === username) {
-            playerName.text(username + ' Correct: [' + data.correct + '/' + total + ']');
+            playerName.text(username + ' Score: [' + data.score + '/' + total + ']');
         }
         if (data.user === opponent) {
-            opponentName.text(opponent + ' Correct: [' + data.correct + '/' + total + ']');
+            opponentName.text(opponent + ' Score: [' + data.score + '/' + total + ']');
         }
     });
 
