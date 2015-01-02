@@ -1,16 +1,21 @@
 extends includes/layout
 block main-content
-    section.section
-        .invite(style='display: none')
-            h4 Oops, there are no other people in this game!
-                h5 Invite a friend by sending them this URL
-                .link
-                    a#share-link(title='Invite a friend', href='')
-        .login
-            h4 Enter username
-            form.loginForm
-                input#username(type="text", placeholder="Username")
-                input#submit-name(type="submit", value="OK")
+    .container
+        .row
+            .col-xs-6.col-xs-offset-3
+                .createbox
+                    .invite(style='display: none')
+                        h4 Oops, there are no other people in this game!
+                            h5 Invite a friend by sending them this URL
+                            .link
+                                a#share-link(title='Invite a friend', href='')
+                    .login
+                        .createdbox__title.text-center Enter username
+                        .createbox__input
+                            form.input-group.loginForm
+                                input#username.form-control(type='text', placeholder='Username')
+                                span.input-group-btn
+                                    input#submit-name.btn.btn-default(type='submit' value="ok")
         .players(style='display: none')
             span Player:
                 | &nbsp;
