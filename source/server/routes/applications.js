@@ -5,6 +5,7 @@ module.exports = function () {
 
     router.route('/')
         .get(function (req, res, next) {
+            console.log(Application);
             Application.find({}, function (err, models) {
                 if (err) {
                     return next(err);
@@ -17,6 +18,7 @@ module.exports = function () {
                     };
                     applications.push(app);
                 }
+                console.log(applications)
                 res.send(applications);
             });
         });

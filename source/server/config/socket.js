@@ -54,6 +54,8 @@ module.exports = function (server) {
 
                 // get application name
                 var appName = data.id.split('/')[0];
+                console.log(appName)
+                console.log(Application)
                 Application.findOne({name: appName}, function (err, model) {
                     if (err) {
                         throw err;

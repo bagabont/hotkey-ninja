@@ -1,36 +1,86 @@
 extends includes/layout
 block main-content
     section.section
-        .invite(style='display: none')
-            h4 Oops, there are no other people in this game!
-                h5 Invite a friend by sending them this URL
-                .link
-                    a#share-link(title='Invite a friend', href='')
-        .login
-            h4 Enter username
-            form.loginForm
-                input#username(type="text", placeholder="Username")
-                input#submit-name(type="submit", value="OK")
-        .players(style='display: none')
-            span Player:
-                | &nbsp;
-                span#player-name
-            br
-            span Opponent:
-                | &nbsp;
-                span#opponent-name
-        .winner(style='display: none')
-            br
-            h2 Winner:
-                | &nbsp;
-                span#winner-name
-        .query(style='display: none')
-            br
-            br
-            span#shortcut-action
-            form#answer-form
-                input#answer(type="text", placeholder="Enter combination...")
-                input#submit-answer(type="submit", value="Answer")
+        .stat
+            .invite(style='display: none')
+                h4 Oops, there are no other people in this game!
+                    h5 Invite a friend by sending them this URL
+                    .link
+                        a#share-link(title='Invite a friend', href='')
+            .login
+                h4 Enter username
+                form.loginForm
+                    input#username(type="text", placeholder="Username")
+                    input#submit-name(type="submit", value="OK")
+            .players(style='display: none')
+                span Player:
+                    | &nbsp;
+                    span#player-name
+                br
+                span Opponent:
+                    | &nbsp;
+                    span#opponent-name
+            .winner(style='display: none')
+                br
+                h2 Winner:
+                    | &nbsp;
+                    span#winner-name
+            .query(style='display: none')
+                br
+                br
+                span#shortcut-action
+                form#answer-form
+                    input#answer(type="text", placeholder="Enter combination...")
+                    input#submit-answer(type="submit", value="Answer")
+        #arena
     script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
     script(type="text/javascript" src="/socket.io/socket.io.js")
+    script(type="text/javascript" src="/js/mk.js/game/src/movement.js")
+    script(type="text/javascript" src="/js/mk.js/game/src/mk.js")
     script(type="text/javascript" src="/js/app.js")
+    script.
+        (function () {
+
+            function $1(id) {
+                return document.getElementById(id);
+            }
+
+            function setLife(container, life) {
+                container.style.width = life + '%';
+            }
+
+            document.onkeydown = function (e) {
+                if (e.keyCode === 32) {
+                    window.location.reload();
+                }
+            };
+
+            (function () {
+                var options = {
+                    arena: {
+                        container: document.getElementById('arena'),
+                        arena: mk.arenas.types.THRONE_ROOM,
+                        width: document.body.clientWidth,
+                        height: $(window).height()
+                    },
+                    fighters: [{ name: 'Subzero' }, { name: 'Kano' }],
+                    callbacks: {
+                        attack: function (f, o, l) {
+                            if (o.getName() === 'kano') {
+                                setLife($('player2Life'), o.getLife());
+                            } else {
+                                setLife($('player1Life'), o.getLife());
+                            }
+                        }
+
+                    },
+                    gameType: 'basic'
+                };
+
+                function startNewGame() {
+                    mk.start(options).ready(function () {
+                    });
+                }
+                startNewGame();
+            }());
+        }());

@@ -91,3 +91,4 @@ com_crashlytics_export_strings.xml
 
 # sftp configuration file
 sftp-config.json
+.DS_Store
