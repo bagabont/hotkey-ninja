@@ -1,38 +1,56 @@
 extends includes/layout
 block main-content
-    section.section
-        .stat
-            .invite(style='display: none')
-                h4 Oops, there are no other people in this game!
-                    h5 Invite a friend by sending them this URL
-                    .link
-                        a#share-link(title='Invite a friend', href='')
-            .login
-                h4 Enter username
-                form.loginForm
-                    input#username(type="text", placeholder="Username")
-                    input#submit-name(type="submit", value="OK")
-            .players(style='display: none')
-                span Player:
-                    | &nbsp;
-                    span#player-name
-                br
-                span Opponent:
-                    | &nbsp;
-                    span#opponent-name
-            .winner(style='display: none')
-                br
-                h2 Winner:
-                    | &nbsp;
-                    span#winner-name
-            .query(style='display: none')
-                br
-                br
-                span#shortcut-action
-                form#answer-form
-                    input#answer(type="text", placeholder="Enter combination...")
-                    input#submit-answer(type="submit", value="Answer")
-        #arena
+    .bar
+        .row
+            .col-xs-5
+                .row.player
+                    .col-xs-4
+                        img.img-responsive(src="/img/default_avatar.jpg")
+                    .col-xs-8
+                        .player__health
+                        h1.player__name Alex
+            .col-xs-2
+                h1.page__title.text-center Notepad++ fight
+            .col-xs-5
+                .row.player
+                    .col-xs-8
+                        .player__health
+                        h1.player__name.text-right Petro
+                    .col-xs-4
+                        img.img-responsive(src="/img/default_avatar.jpg")
+    .stat
+        .invite(style='display: none')
+            h4 Oops, there are no other people in this game!
+                h5 Invite a friend by sending them this URL
+                .link
+                    a#share-link(title='Invite a friend', href='')
+        .login
+            h4 Enter username
+            form.loginForm
+                input#username(type="text", placeholder="Username")
+                input#submit-name(type="submit", value="OK")
+        .players(style='display: none')
+            span Player:
+                | &nbsp;
+                span#player-name
+            br
+            span Opponent:
+                | &nbsp;
+                span#opponent-name
+        .winner(style='display: none')
+            br
+            h2 Winner:
+                | &nbsp;
+                span#winner-name
+        .query(style='display: none')
+            br
+            br
+            span#shortcut-action
+            form#answer-form
+                input#answer(type="text", placeholder="Enter combination...")
+                input#submit-answer(type="submit", value="Answer")
+    #arena
+
     script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
     script(type="text/javascript" src="/socket.io/socket.io.js")
     script(type="text/javascript" src="/js/mk.js/game/src/movement.js")
