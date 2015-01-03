@@ -1,16 +1,56 @@
-html, body, div, canvas {
+html, body {
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 canvas {
     display: block;
 }
 
+.page{
+    width: 100%;
+    height: 100%;
+    background: url("../img/1.gif") no-repeat center center;
+    background-size: cover;
+}
+
+.page__content{
+}
+
 .page__title {
     color: #FFFFFF;
     text-shadow: 0px 0px 2px rgba(0,0,0,0.8);
 }
+
+.createbox{ 
+    margin-top: 200px;
+    padding: 20px 40px 40px;
+    background-color: rgba(40,40,40,0.5);
+}
+
+.createdbox__title{
+    font-size: 55px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.createbox .createdbox__button{
+    padding: 0 30px;
+    color: #4C4C4C;
+    height: 50px;
+    font-size: 2em;
+    font-weight: bold;
+    border: none;
+    -moz-box-shadow: 0 0 10px #fff;
+    -webkit-box-shadow: 0 0 10px #fff;
+    box-shadow: 0px 0px 10px #fff;
+}
+
+.createbox .createbox__input{
+  margin-top: 100px;
+}
+
 
 .stat {
     display: none;
@@ -48,53 +88,4 @@ canvas {
     font-size: 45px;
     margin-top: 10px;
     text-shadow: 0px 0px 2px rgba(0,0,0,0.8);
-}
-
-.page{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: url("../img/1.gif") no-repeat center center;
-    background-size: auto 100%;
-}
-
-.page__content{
-} 
-
-.createbox{ 
-    margin-top: 200px;
-    padding: 20px;
-    background-color: rgba(0,0,0,0.4);
-}
-
-.createdbox__title{
-    font-size: 35px;
-    color: white;
-}
-
-.createbox .createdbox__button{
-    margin-top: 150px;
-    padding: 0 30px;
-    color: #4C4C4C;
-    height: 50px;
-    font-size: 2em;
-    border: none;
-    -moz-box-shadow: 0 0 10px #fff;
-    -webkit-box-shadow: 0 0 10px #fff;
-    box-shadow: 0px 0px 10px #fff;
-}
-
-.createbox .createbox__input{
-  margin-top: 100px;
-}
-
-.players{
-
-}
-
-.players .players__text{
-  color: #EAEAEA;
-  font-size: 20px;
 }

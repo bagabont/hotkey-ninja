@@ -4,7 +4,14 @@ block main-content
         .row
             .col-xs-6.col-xs-offset-3
                 .createbox
-                    .createdbox__title.text-center HOT KEY NINJA
+                    h1.createdbox__title.text-center HOT KEY NINJA
                     form(name="create", action="/dojo/notepad++/create", method="post")
-                        .text-center
-                            button.btn-default.btn-lg.btn-block.createdbox__button(type="submit") Create Game
+                        .form-group
+                            input.form-control.input-lg(type="text" placeholder="Player name" value="Player 1")
+                        .form-group
+                            .input-group.input-group-lg
+                                input.form-control(type="text" placeholder="Enter room number" value="")
+                                span.input-group-btn
+                                    a.btn.btn-default() Join Game
+                        hr
+                        button.btn-default.btn-lg.btn-block.createdbox__button(type="submit") Create Game

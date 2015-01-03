@@ -12,7 +12,7 @@
     ARENAS       : 'arenas/',
     FIGHTERS     : 'fighters/',
     STEP_DURATION: 80,
-    PLAYER_TOP   : $(window).height() -210,
+    PLAYER_TOP   : $(window).height() - 170,
     BLOCK_DAMAGE : 0.2
   };
 
@@ -640,14 +640,15 @@
       conf = mk.config,
       self = this;
     if (this.texture) {
-      this._context.drawImage(this.texture, 0, 0, this.width, this.height);
+      //this._context.drawImage(this.texture, 0, 0, this.width, this.height);
+      this._context.clearRect ( 0 , 0 , this.width, this.height);
     } else {
       img.src = conf.IMAGES + conf.ARENAS + this.arena + '/arena.png';
       img.width = this.width;
       img.height = this.height;
       img.onload = function () {
         self.texture = img;
-        self._context.drawImage(img, 0, 0, self.width, self.height);
+        //self._context.drawImage(img, 0, 0, self.width, self.height);
       };
     }
   };
