@@ -1,8 +1,10 @@
 extends includes/layout
 block main-content
-    header
-        .container
-    section
-        div.createbox
-            form(name="create", action="/dojo/notepad++/create", method="post")
-                input(type="submit", value="create")
+    .page__content.container
+        .row
+            .col-xs-6.col-xs-offset-3
+                .createbox
+                    .createdbox__title.text-center HOT KEY NINJA
+                    form(name="create", action="/dojo/notepad++/create", method="post")
+                        .text-center
+                            button.btn-default.btn-lg.btn-block.createdbox__button(type="submit") Create Game
