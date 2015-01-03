@@ -1,29 +1,35 @@
 extends includes/layout
 block main-content
     .container
-        .row
-            .col-xs-6.col-xs-offset-3
-                .createbox
-                    .invite(style='display: none')
+        .invite(style='display: none')
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox
                         h4 Oops, there are no other people in this game!
                             h5 Invite a friend by sending them this URL
                             .link
                                 a#share-link(title='Invite a friend', href='')
-                    .login
+        
+        .login
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox
                         .createdbox__title.text-center Enter username
-                        .createbox__input
-                            form.input-group.loginForm
-                                input#username.form-control(type='text', placeholder='Username')
-                                span.input-group-btn
-                                    input#submit-name.btn.btn-default(type='submit' value="ok")
+                            .createbox__input
+                                form.input-group.loginForm
+                                    input#username.form-control(type='text', placeholder='Username')
+                                    span.input-group-btn
+                                        input#submit-name.btn.btn-default(type='submit' value="ok")
         .players(style='display: none')
-            span Player:
-                | &nbsp;
-                span#player-name
-            br
-            span Opponent:
-                | &nbsp;
-                span#opponent-name
+            .row
+                .col-xs-3
+                    .players__text.text-center Player:
+                        | &nbsp;
+                        span#player-name
+                .col-xs-3.col-xs-offset-6  
+                    .players__text.text-center Opponent:
+                        | &nbsp;
+                        span#opponent-name
         .winner(style='display: none')
             br
             h2 Winner:

@@ -20,7 +20,7 @@ html, body {
 .createbox{ 
     margin-top: 200px;
     padding: 20px;
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.4);
 }
 
 .createdbox__title{
@@ -42,5 +42,14 @@ html, body {
 
 .createbox .createbox__input{
   margin-top: 100px;
+}
+
+.players{
+
+}
+
+.players .players__text{
+  color: #EAEAEA;
+  font-size: 20px;
 }
 
