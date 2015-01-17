@@ -1,6 +1,6 @@
 extends includes/layout
 block main-content
-    .bar
+    .bar(style='display: none')
         .row
             .col-xs-5
                 .row.player
@@ -18,22 +18,22 @@ block main-content
                         h1.player__name.text-right Petro
                     .col-xs-4
                         img.img-responsive(src="/img/default_avatar.jpg")
-    .question
+    .question(style='display: none')
         .question__progress
         .question__inner
             h2.question__title Select text
 
     .stat
         .container
-            .invite(style='display: none')
+            .invite
                 .row
                     .col-xs-6.col-xs-offset-3
                         .createbox
                             h4 Oops, there are no other people in this game!
                                 h5 Invite a friend by sending them this URL
                                 .link
-                                    a#share-link(title='Invite a friend', href='')
-            .login
+                                    a#share-link(title='Invite a friend', href=appLink)= appLink
+            .login(style='display: none')
                 .row
                     .col-xs-6.col-xs-offset-3
                         .createbox

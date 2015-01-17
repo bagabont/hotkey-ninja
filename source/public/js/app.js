@@ -50,16 +50,18 @@
 
     // on connection to server get the id of person's room
     socket.on('connect', function () {
+        console.log('connect');
         socket.emit('load', roomId);
     });
 
     // receive the names of all people in the game room
     socket.on('loaded', function (data) {
+        console.log(data.players);
         if (data.players >= 2) {
             console.log('This game is full.');
             return;
         }
-
+        console.log('onloaded event');
         loginForm.on('submit', function (e) {
             e.preventDefault();
             username = $.trim(usernameInput.val());
