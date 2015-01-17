@@ -51,15 +51,18 @@ canvas {
   margin-top: 100px;
 }
 
+.invite .createbox{
+    color: white;
+}
 
 .stat {
-    display: none;
+    /*display: none;
     position: absolute;
     top:0;
     left: 50%;
     margin-left: -100px;
     background: white;
-    padding: 0 20px 20px;
+    padding: 0 20px 20px;*/
 
 }
 

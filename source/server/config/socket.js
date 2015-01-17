@@ -10,6 +10,7 @@ module.exports = function (server) {
         // number of players in this game
         socket.on('load', function (data) {
             var clients = findClientsSocket(data, '/socket');
+            console.log(clients);
             switch (clients.length) {
                 case 0:
                     socket.emit('loaded', {players: 0});

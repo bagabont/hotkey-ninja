@@ -7,10 +7,10 @@ block main-content
                     h1.createdbox__title.text-center HOT KEY NINJA
                     form(name="create", action="/dojo/notepad++/create", method="post")
                         .form-group
-                            input.form-control.input-lg(type="text" placeholder="Player name" value="Player 1")
+                            input.form-control.input-lg(type="text" name="player1" placeholder="Enter Player Name")
                         .form-group
                             .input-group.input-group-lg
-                                input.form-control(type="text" placeholder="Enter room number" value="")
+                                input.form-control(type="text" placeholder="Enter room number" name="room" value="")
                                 span.input-group-btn
                                     a.btn.btn-default() Join Game
                         hr
