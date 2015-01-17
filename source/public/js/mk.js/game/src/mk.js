@@ -199,7 +199,7 @@
 
   mk.controllers.Basic.prototype._initialize = function () {
     this._player = 0;
-    this._addHandlers();
+    //this._addHandlers();
   };
 
   mk.controllers.Basic.prototype._addHandlers = function () {
