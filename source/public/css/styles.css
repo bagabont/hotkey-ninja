@@ -23,7 +23,7 @@ canvas {
     text-shadow: 0px 0px 2px rgba(0,0,0,0.8);
 }
 
-.createbox{ 
+.createbox{
     margin-top: 200px;
     padding: 20px 40px 40px;
     background-color: rgba(40,40,40,0.5);
@@ -102,11 +102,15 @@ canvas {
     text-align: center;
     overflow: hidden;
     -webkit-animation: a-shadow 5s linear;
+    -moz-animation: a-shadow 5s linear;
+    animation: a-shadow 5s linear;
 }
 .question__progress {
-    height:0%;
+    height: 0;
     background-color: green;
     -webkit-animation: a-progress 5s linear;
+    -moz-animation: a-progress 5s linear;
+    animation: a-progress 5s linear;
 }
 .question__inner {
     border-radius: 50%;
@@ -137,6 +141,17 @@ canvas {
         background-color: red;
     }
 }
+@keyframes a-progress {
+    from {
+        height: 0%;
+        background-color: green;
+    }
+    to {
+        height: 100%;
+        background-color: red;
+    }
+}
+
 @-webkit-keyframes a-shadow {
     from {
         box-shadow: 0 0 40px 10px rgba(20, 140, 20, 0.5);
@@ -146,47 +161,11 @@ canvas {
     }
 }
 
-
-@keyframes a-question {
-    0%  {background: green;}
-    50% {background: yellow;}
-    100% {background: red;}
-}
-@-webkit-keyframes a-question {
-    0%  {
-        bottom: 100%;
+@keyframes a-shadow {
+    from {
         box-shadow: 0 0 40px 10px rgba(20, 140, 20, 0.5);
     }
-    50% {
-        box-shadow: 0 0 40px 10px rgba(140, 140, 20, 0.5);
-        background-color: rgba(0,0,0,0.6);
-    }
-    51% {
-        background-color: rgba(140,140,20,0.7);
-    }
-    72% {
-        background-color: rgba(0,0,0,0.6);
-    }
-    75% {
-        background-color: rgba(140,140,20,0.7);
-    }
-    80% {
-        background-color: rgba(0,0,0,0.6);
-    }
-    81% {
-        background-color: rgba(140,140,20,0.7);
-    }
-    85% {
-        background-color: rgba(140,140,20,0.7);
-    }
-    92% {
-        opacity: 1;
-        background-color: rgba(255,0,0,0.7);
-    }
-    100% {
-        opacity: 0;
-        background-color: rgba(255,0,0,0.7);
-        bottom: 40%;
-        box-shadow: 0 0 40px 10px rgba(180, 40, 40, 0.5);
+    to {
+        box-shadow: 0 0 40px 10px rgba(240, 20, 20, 0.5);
     }
 }
