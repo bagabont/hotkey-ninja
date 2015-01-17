@@ -12,7 +12,7 @@
     ARENAS       : 'arenas/',
     FIGHTERS     : 'fighters/',
     STEP_DURATION: 80,
-    PLAYER_TOP   : $(window).height() - 170,
+    PLAYER_TOP   : $(window).height() - 290,
     BLOCK_DAMAGE : 0.2
   };
 
@@ -659,7 +659,7 @@
     for (var i = 0; i < this.fighters.length; i += 1) {
       f = this.fighters[i];
       img = f.getState();
-      this._context.drawImage(img, f.getX(), f.getY(), img.width, img.height);
+      this._context.drawImage(img, f.getX(), f.getY(), img.width * 2, img.height * 2);
     }
   };
 
@@ -902,7 +902,7 @@
   mk.moves.Walk.prototype = new mk.moves.CycleMove();
 
   mk.moves.Walk.prototype._action = function () {
-    this.owner.setX(this.owner.getX() + 10);
+    this.owner.setX(this.owner.getX() + 20);
     this.owner.setY(mk.config.PLAYER_TOP);
   };
 
@@ -917,7 +917,7 @@
   mk.moves.WalkBack.prototype = new mk.moves.CycleMove();
 
   mk.moves.WalkBack.prototype._action = function () {
-    this.owner.setX(this.owner.getX() - 10);
+    this.owner.setX(this.owner.getX() - 20);
     this.owner.setY(mk.config.PLAYER_TOP);
   };
 
@@ -947,6 +947,8 @@
 
   mk.moves.FiniteMove.prototype.keepDistance = function () {
     var currentBottom = this.owner.getBottom();
+    console.log(this);
+    console.log([currentBottom, this.owner.getY(), this._bottom]);
     if (currentBottom > this._bottom) {
       this.owner.setY(this.owner.getY() + currentBottom - this._bottom);
     }
@@ -991,6 +993,7 @@
   mk.moves.Squat.prototype = new mk.moves.FiniteMove();
 
   mk.moves.Squat.prototype._action = function () {
+    console.log("now");
     this.keepDistance();
     if (this._currentStep === 2) {
       this.stop();
@@ -1231,10 +1234,10 @@
   mk.moves.ForwardJump.prototype._action = function () {
     if (this._currentStep > (this._totalSteps - 1) / 2) { //Move down
       this.owner.setY(this.owner.getY() + 26);
-      this.owner.setX(this.owner.getX() + 23);
+      this.owner.setX(this.owner.getX() + 43);
     } else { //Move up
       this.owner.setY(this.owner.getY() - 26);
-      this.owner.setX(this.owner.getX() + 23);
+      this.owner.setX(this.owner.getX() + 43);
     }
   };
 
@@ -1267,10 +1270,10 @@
   mk.moves.BackwardJump.prototype._action = function () {
     if (this._currentStep > (this._totalSteps - 1) / 2) { //Move down
       this.owner.setY(this.owner.getY() + 26);
-      this.owner.setX(this.owner.getX() - 23);
+      this.owner.setX(this.owner.getX() - 43);
     } else { //Move up
       this.owner.setY(this.owner.getY() - 26);
-      this.owner.setX(this.owner.getX() - 23);
+      this.owner.setX(this.owner.getX() - 43);
     }
   };
 
@@ -1583,8 +1586,8 @@
     this._game = options.game;
     this._life = 100;
     this._orientation = options.orientation;
-    this._width = 30;
-    this._height = 60;
+    this._width = 60;
+    this._height = 120;
     this._locked = false;
     this._position = {
       x: 50,
@@ -1663,9 +1666,9 @@
 
   mk.fighters.Fighter.prototype.getWidth = function () {
     if (this._currentState && this._currentState.width) {
-      return this._currentState.width;
+      return this._currentState.width*2;
     }
-    return this._width;
+    return this._width*2;
   };
 
   mk.fighters.Fighter.prototype.getVisibleWidth = function () {
@@ -1674,9 +1677,9 @@
 
   mk.fighters.Fighter.prototype.getVisibleHeight = function () {
     if (this._currentState && this._currentState.height) {
-      return this._currentState.height;
+      return this._currentState.height*2;
     }
-    return this._height;
+    return this._height*2;
   };
 
   mk.fighters.Fighter.prototype.getVisibleHeight = function () {
@@ -1777,7 +1780,7 @@
   };
 
   mk.fighters.Fighter.prototype.getBottom = function () {
-    var bottomY = this._currentState.height + this.getY();
+    var bottomY = this._currentState.height*2 + this.getY();
     return this._arena.height - bottomY;
   };
 

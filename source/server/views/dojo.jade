@@ -3,18 +3,20 @@ block main-content
     .bar
         .row
             .col-xs-5
-                .row.player
+                .row.player.player_1
                     .col-xs-4
                         img.img-responsive(src="/img/default_avatar.jpg")
                     .col-xs-8
                         .player__health
+                            .player__health-inner
                         h1.player__name Alex
             .col-xs-2
                 h1.page__title.text-center Notepad++ fight
             .col-xs-5
-                .row.player
+                .row.player.player_2
                     .col-xs-8
                         .player__health
+                            .player__health-inner
                         h1.player__name.text-right Petro
                     .col-xs-4
                         img.img-responsive(src="/img/default_avatar.jpg")
@@ -80,7 +82,7 @@ block main-content
             }
 
             function setLife(container, life) {
-                container.style.width = life + '%';
+                container.find(".player__health-inner").width(life + "%");
             }
 
             document.onkeydown = function (e) {
@@ -101,9 +103,9 @@ block main-content
                     callbacks: {
                         attack: function (f, o, l) {
                             if (o.getName() === 'kano') {
-                                setLife($('player2Life'), o.getLife());
+                                setLife($('.player_1'), o.getLife());
                             } else {
-                                setLife($('player1Life'), o.getLife());
+                                setLife($('.player_2'), o.getLife());
                             }
                         }
 

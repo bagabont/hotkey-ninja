@@ -81,7 +81,10 @@ canvas {
     height: 30px;
     border: 2px solid #ffffff;
     width: 100%;
+}
+.player__health-inner {
     background-color: rgba(200, 30, 30, 0.7);
+    height: 100%;
 }
 .player__name {
     color: #FFFFFF;
