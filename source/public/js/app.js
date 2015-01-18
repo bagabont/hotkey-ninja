@@ -1,109 +1,25 @@
-(function () {
-    var roomId = 'notepad++/1111';
-    var username = '';
-    var opponent = '';
-    var total = 0;
-
-    /*
-    answerForm.on('submit', function (e) {
-        e.preventDefault();
-
-        if (answerInput.val().trim().length) {
-            var answer = answerInput.val();
-
-            // Submit answer
-            socket.emit('answer', {
-                answer: answer,
-                user: username
-            });
+var App = {
+    init: function() {
+        $(".user-name").val(this.getName());
+        this.initEvents();
+    },
+    saveName: function(name) {
+        localStorage.setItem("name", name);
+    },
+    getName: function() {
+        name = null;
+        if (localStorage.getItem("name")) {
+            name = localStorage.getItem("name");
         }
-
-        // Empty the answer text
-        answerInput.val("");
-    });
-    */
-
-    // connect to the socket
-    var socket = io.connect('/socket');
-
-    // on connection to server get the id of person's room
-    socket.on('connect', function () {
-        console.log("connect");
-        socket.emit('load', roomId);
-    });
-
-    // receive the names of all people in the game room
-    socket.on('loaded', function (data) {
-        console.log("loaded");
-        if (data.players === 0) {
-            $(".invite").show();
-            socket.emit('join', getData());
-        }
-        if (data.players === 1) {
-            $(".login").show();
-        }
-        console.log(data.players);
-    });
-
-    socket.on('start', function (data) {
-        console.log("start");
-        if (data.id == roomId) {
-            total = data.total;
-
-            if (username === data.users[0]) {
-                opponent = data.users[1];
-            }
-            else {
-                opponent = data.users[0];
-            }
-
-        }
-        $(".login").hide();
-        $(".invite").hide();
-        $(".bar").show()
-        Fight.init();
-    });
-
-    socket.on('query', function (data) {
-        //shortcutAction.text(data.query);
-    });
-
-    socket.on('game over', function (data) {
-        //queryArea.remove();
-        //winnerName.text(data.winner);
-    });
-
-    socket.on('leave', function (data) {
-        if (roomId == data.room) {
-            console.log(data.user + ' left.');
-        }
-    });
-
-    socket.on('progress', function (data) {
-        if (data.user === username) {
-            playerName.text(username + ' Score: [' + data.score + '/' + total + ']');
-        }
-        if (data.user === opponent) {
-            opponentName.text(opponent + ' Score: [' + data.score + '/' + total + ']');
-        }
-    });
-
-    socket.on('full', function (data) {
-        console.log(data);
-        console.log('Game is full.');
-    });
-
-    $(".login form").on("submit", function() {
-        socket.emit('join', getData());
-        return false;
-    });
-
-    function getData (prop) {
-        var name = "userName";
-        var parts = location.pathname.split("/")
-        return {
-            user: (decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null),
-            id: parts[2] + "/" + parts[3]
-        };
+        return name;
+    },
+    initEvents: function() {
+        var self = this;
+        $(".form_get-name").on("submit", function() {
+            self.saveName($(".user-name").val());
+            return true;
+        });
     }
-})();
+};
+
+$(App.init.bind(App));
