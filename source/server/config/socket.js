@@ -5,12 +5,12 @@ module.exports = function (server) {
 
     // Initialize a new socket.io application
     var game = io.of('/socket').on('connection', function (socket) {
+        console.log("user connected");
 
         // When the client emits the 'load' event, reply with the
         // number of players in this game
         socket.on('load', function (data) {
             var clients = findClientsSocket(data, '/socket');
-            console.log(clients);
             switch (clients.length) {
                 case 0:
                     socket.emit('loaded', {players: 0});
@@ -55,8 +55,6 @@ module.exports = function (server) {
 
                 // get application name
                 var appName = data.id.split('/')[0];
-                console.log(appName)
-                console.log(Application)
                 Application.findOne({name: appName}, function (err, model) {
                     if (err) {
                         throw err;
@@ -175,6 +173,7 @@ module.exports = function (server) {
             ns = io.of(namespace || "/"); // the default namespace is "/"
         if (ns) {
             for (var id in ns.connected) {
+                console.log(id);
                 if (roomId) {
                     var index = ns.connected[id].rooms.indexOf(roomId);
                     if (index !== -1) {
@@ -189,4 +188,3 @@ module.exports = function (server) {
         return res;
     }
 };
-

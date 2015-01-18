@@ -20,14 +20,8 @@
         winnerName = $('#winner-name'),
         winnerArea = $('.winner');
 
-    answerForm.keypress(function (e) {
-        // submit answer on enter
-        if (e.which == 13) {
-            e.preventDefault();
-            answerForm.trigger('submit');
-        }
-    });
-
+    console.log(getData());
+    /*
     answerForm.on('submit', function (e) {
         e.preventDefault();
 
@@ -44,6 +38,7 @@
         // Empty the answer text
         answerInput.val("");
     });
+    */
 
     // connect to the socket
     var socket = io.connect('/socket');
@@ -140,4 +135,12 @@
         console.log(data);
         console.log('Game is full.');
     });
+
+    function getData (prop) {
+        name = "userName";
+        return {
+            userName: (decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null),
+            roomId: location.pathname.split("/")[3]
+        };
+    }
 })();
