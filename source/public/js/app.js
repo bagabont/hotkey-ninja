@@ -57,10 +57,11 @@
                 opponent = data.users[0];
             }
 
-            // remove invitation
-            $(".login").show();
-
         }
+        $(".login").hide();
+        $(".invite").hide();
+        $(".bar").show()
+        Fight.init();
     });
 
     socket.on('query', function (data) {
@@ -90,6 +91,11 @@
     socket.on('full', function (data) {
         console.log(data);
         console.log('Game is full.');
+    });
+
+    $(".login form").on("submit", function() {
+        socket.emit('join', getData());
+        return false;
     });
 
     function getData (prop) {
