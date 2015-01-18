@@ -45,44 +45,25 @@
 
     // on connection to server get the id of person's room
     socket.on('connect', function () {
-        console.log('connect');
+        console.log("connect");
         socket.emit('load', roomId);
     });
 
     // receive the names of all people in the game room
     socket.on('loaded', function (data) {
-        console.log(data.players);
+        console.log("loaded");
         if (data.players >= 2) {
             console.log('This game is full.');
             return;
         }
         console.log('onloaded event');
-        loginForm.on('submit', function (e) {
-            e.preventDefault();
-            username = $.trim(usernameInput.val());
-            if (username.length < 1) {
-                console.log("Please enter a nick name longer than 1 character!");
-                return;
-            }
-            if (data.players === 0) {
-                // show invitation with link pointing to this game room
-                invite.css('display', 'block');
-                link.text(window.location.href);
-            }
 
-            if (data.players === 1 && username == data.user) {
-                console.log("There is a player with username \"" + username + "\" in this game!");
-                return;
-            }
-            // remove login form
-            login.remove();
-
-            // call the server-side function 'join' and send user's id
-            socket.emit('join', {user: username, id: roomId});
-        });
+        // call the server-side function 'join' and send user's id
+        socket.emit('join', getData());
     });
 
     socket.on('start', function (data) {
+        console.log("start");
         if (data.id == roomId) {
             total = data.total;
 
@@ -137,10 +118,11 @@
     });
 
     function getData (prop) {
-        name = "userName";
+        var name = "userName";
+        var parts = location.pathname.split("/")
         return {
-            userName: (decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null),
-            roomId: location.pathname.split("/")[3]
+            user: (decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null),
+            id: parts[2] + "/" + parts[3]
         };
     }
 })();

@@ -31,6 +31,7 @@ module.exports = function (server) {
         // When client emits 'join', save his name,
         // and add him to the room
         socket.on('join', function (data) {
+            console.log("join");
             // find game room
             var clients = findClientsSocket(data.id, '/socket');
 
@@ -55,7 +56,11 @@ module.exports = function (server) {
 
                 // get application name
                 var appName = data.id.split('/')[0];
+                console.log("app name");
+                console.log(appName);
                 Application.findOne({name: appName}, function (err, model) {
+                    console.log("find");
+
                     if (err) {
                         throw err;
                     }
@@ -71,6 +76,7 @@ module.exports = function (server) {
 
                     // if both players are present start the game
                     if (clients.length === 2) {
+                        console.log("now!");
                         // attach shortcuts list
                         for (var i = 0; i < clients.length; i++) {
                             clients[i].shortcuts = shortcuts;
