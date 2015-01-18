@@ -25,48 +25,26 @@ block main-content
         .question__inner
             h2.question__title Select text
 
-    .stat
-        .container
-            .invite
-                .row
-                    .col-xs-6.col-xs-offset-3
-                        .createbox
-                            h4 Oops, there are no other people in this game!
-                                h5 Invite a friend by sending them this URL
-                                .link
-                                    a#share-link(title='Invite a friend', href=appLink)= appLink
-            .login(style='display: none')
-                .row
-                    .col-xs-6.col-xs-offset-3
-                        .createbox
-                            .createdbox__title.text-center Enter username
-                                .createbox__input
-                                    form.input-group.loginForm
-                                        input#username.form-control(type='text', placeholder='Username')
-                                        span.input-group-btn
-                                            input#submit-name.btn.btn-default(type='submit' value="ok")
-            .players(style='display: none')
-                .row
-                    .col-xs-3
-                        .players__text.text-center Player:
-                            | &nbsp;
-                            span#player-name
-                    .col-xs-3.col-xs-offset-6  
-                        .players__text.text-center Opponent:
-                            | &nbsp;
-                            span#opponent-name
-            .winner(style='display: none')
-                br
-                h2 Winner:
-                    | &nbsp;
-                    span#winner-name
-            .query(style='display: none')
-                br
-                br
-                span#shortcut-action
-                form#answer-form
-                    input#answer(type="text", placeholder="Enter combination...")
-                    input#submit-answer(type="submit", value="Answer")
+    .container
+        .invite(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox
+                        h2 Waiting for another player
+                            h5 Invite a friend by sending them this URL
+                            .link
+                                input.app-link.input-lg.form-control(type="text" value=appLink)
+        .login(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox
+                        .createdbox__title.text-center Enter username
+                            .createbox__input
+                                form.input-group.input-group-lg.loginForm
+                                    input.form-control(type='text', placeholder='Username')
+                                    span.input-group-btn
+                                        input.btn.btn-default(type='submit' value="Start")
+                                
     #arena
 
     script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
@@ -118,6 +96,6 @@ block main-content
                     mk.start(options).ready(function () {
                     });
                 }
-                startNewGame();
+                //startNewGame();
             }());
         }());

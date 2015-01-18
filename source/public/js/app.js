@@ -4,23 +4,6 @@
     var opponent = '';
     var total = 0;
 
-    // cached elements
-    var login = $('.login'),
-        invite = $('.invite'),
-        queryArea = $('.query'),
-        shortcutAction = $('#shortcut-action'),
-        link = $('#share-link'),
-        loginForm = $('.loginForm'),
-        playersArea = $('.players'),
-        opponentName = $('#opponent-name'),
-        playerName = $('#player-name'),
-        usernameInput = $('#username'),
-        answerForm = $('#answer-form'),
-        answerInput = $('#answer'),
-        winnerName = $('#winner-name'),
-        winnerArea = $('.winner');
-
-    console.log(getData());
     /*
     answerForm.on('submit', function (e) {
         e.preventDefault();
@@ -52,14 +35,14 @@
     // receive the names of all people in the game room
     socket.on('loaded', function (data) {
         console.log("loaded");
-        if (data.players >= 2) {
-            console.log('This game is full.');
-            return;
+        if (data.players === 0) {
+            $(".invite").show();
+            socket.emit('join', getData());
         }
-        console.log('onloaded event');
-
-        // call the server-side function 'join' and send user's id
-        socket.emit('join', getData());
+        if (data.players === 1) {
+            $(".login").show();
+        }
+        console.log(data.players);
     });
 
     socket.on('start', function (data) {
@@ -75,26 +58,18 @@
             }
 
             // remove invitation
-            invite.remove();
+            $(".login").show();
 
-            // show players area
-            playersArea.css('display', 'block');
-            opponentName.text(opponent + '[' + 0 + '/' + total + ']');
-            playerName.text(username + '[' + 0 + '/' + total + ']');
-
-            // show query area
-            queryArea.css('display', 'block')
         }
     });
 
     socket.on('query', function (data) {
-        shortcutAction.text(data.query);
+        //shortcutAction.text(data.query);
     });
 
     socket.on('game over', function (data) {
-        queryArea.remove();
-        winnerName.text(data.winner);
-        winnerArea.css('display', 'block');
+        //queryArea.remove();
+        //winnerName.text(data.winner);
     });
 
     socket.on('leave', function (data) {
