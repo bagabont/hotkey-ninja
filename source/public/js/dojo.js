@@ -25,11 +25,13 @@
             });
 
             socket.on('start', function (data) {
+                var opponent = "";
                 console.log("start");
+                console.log(data);
                 if (data.id == self.getData().id) {
                     total = data.total;
 
-                    if (self.getData().name === data.users[0]) {
+                    if (self.getData().name == data.users[0]) {
                         opponent = data.users[1];
                     }
                     else {
@@ -40,6 +42,9 @@
                 $(".login").hide();
                 $(".invite").hide();
                 $(".bar").show();
+                console.log(self.getData().name, opponent);
+                $(".player_1 .player__name").text(self.getData().name);
+                $(".player_2 .player__name").text(opponent);
                 Fight.init();
             });
 

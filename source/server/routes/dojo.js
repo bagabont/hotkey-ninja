@@ -8,9 +8,8 @@ module.exports = function () {
             var id = 1111;
             var app = req.params.app;
 
-            var user = req.body.player1;
             // Redirect to the room
-            res.redirect('/dojo/' + app + '/' + id + '?userName=' + user);
+            res.redirect('/dojo/' + app + '/' + id);
         });
 
     router.route('/dojo/:app/:id')
