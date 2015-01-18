@@ -1,13 +1,14 @@
 extends includes/layout
 block js
     script(type="text/javascript" src="/js/dojo.js")
+    script(type="text/javascript" src="/js/adapter.js")
 block main-content
-    .bar(style='display: none')
+    .bar
         .row
             .col-xs-5
                 .row.player.player_1
                     .col-xs-4
-                        img.img-responsive(src="/img/default_avatar.jpg")
+                        video#localVideo.img-responsive(autoplay muted)
                     .col-xs-8
                         .player__health
                             .player__health-inner
@@ -21,7 +22,8 @@ block main-content
                             .player__health-inner
                         h1.player__name.text-right Player 2
                     .col-xs-4
-                        img.img-responsive(src="/img/default_avatar.jpg")
+                        video#remoteVideo.img-responsive(autoplay='')                          .row.player.player_1
+
     .question(style='display: none')
         .question__progress
         .question__inner

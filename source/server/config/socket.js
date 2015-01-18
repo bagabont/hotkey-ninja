@@ -7,6 +7,21 @@ module.exports = function (server) {
     var game = io.of('/socket').on('connection', function (socket) {
         console.log("user connected");
 
+        function log(){
+            var array = [">>> Message from server: "];
+          for (var i = 0; i < arguments.length; i++) {
+            array.push(arguments[i]);
+          }
+            socket.emit('log', array);
+        }
+
+        socket.on('message', function (message) {
+            log('Got message: ', message);
+        // For a real app, should be room only (not broadcast)
+            socket.broadcast.emit('message', message);
+        });
+
+
         // When the client emits the 'load' event, reply with the
         // number of players in this game
         socket.on('load', function (data) {
@@ -48,8 +63,10 @@ module.exports = function (server) {
 
             // Add the client to the room
             socket.join(data.id);
-
+            console.log('=======================');
+            console.log(clients.length);
             if (clients.length == 1) {
+                socket.broadcast.emit('jointed', data.id);
                 var users = [];
                 users.push(clients[0].username);
                 users.push(socket.username);
