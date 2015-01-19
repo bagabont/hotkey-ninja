@@ -7,7 +7,7 @@ var App = {
         localStorage.setItem("name", name);
     },
     getName: function () {
-        name = null;
+        name = "";
         if (localStorage.getItem("name")) {
             name = localStorage.getItem("name");
         }
