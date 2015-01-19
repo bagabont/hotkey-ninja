@@ -8,30 +8,10 @@ var ShortcutSchema = new Schema({
 
 var ApplicationSchema = new Schema({
     name: {type: String},
+    platform: {type: String},
     shortcuts: [ShortcutSchema]
 });
 
 Application = mongoose.model('applications', ApplicationSchema);
-
-Application.remove({}, function() {
-
-    Application.create({
-        name: "notepad++",
-        shortcuts: [
-            {
-                combination: "ctrl+a",
-                action: "Select all"
-            },
-            {
-                combination: "ctrl+v",
-                action: "Paste text"
-            },
-            {
-                combination: "ctrl+c",
-                action: "Aasd"
-            }
-        ]
-    });
-});
 
 module.exports = Application;
