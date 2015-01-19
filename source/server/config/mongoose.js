@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 module.exports = function (config) {
     // connect to database
-    console.log("try to connect db");
+    console.log("Connecting to database ...");
     console.log(config.db);
     mongoose.connect(config.db);
 
@@ -12,7 +12,7 @@ module.exports = function (config) {
             console.log('Database connection could not be open: ' + err);
             return;
         }
-        console.log('Database up and running...');
+        console.log('Database up and running.');
     });
 
     // error handler
