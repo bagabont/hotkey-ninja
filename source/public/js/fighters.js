@@ -1,7 +1,11 @@
 (function () {
     window.Fight = {
-        init: function() {
+        init: function(mode) {
             var self = this;
+            var fighters = [{ name: 'Subzero' }, { name: 'Kano' }]
+            if (mode === 1) {
+                fighters = fighters.reverse();
+            }
             var options = {
                 arena: {
                     container: document.getElementById('arena'),
@@ -9,7 +13,7 @@
                     width: document.body.clientWidth,
                     height: $(window).height()
                 },
-                fighters: [{ name: 'Subzero' }, { name: 'Kano' }],
+                fighters: fighters,
                 callbacks: {
                     attack: function (f, o, l) {
                         if (o.getName() === 'kano') {

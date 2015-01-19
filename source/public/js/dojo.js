@@ -20,6 +20,20 @@
               'OfferToReceiveAudio':true,
               'OfferToReceiveVideo':true }};
 
+            var k = new Kibo();
+            var ev = [];
+            k.down('any', function(e) {
+                ev.push(e);
+            });
+            k.up("any", function(e) {
+                if(ev.length > 0) {
+                    var r = _.map(ev, function(a) {return a.key});
+                    r = r.join(" ");
+                    console.log(r);
+                }
+                ev=[];
+            });
+
 
             // connect to the socket
             var socket = io.connect('/socket');
@@ -53,29 +67,32 @@
 
             socket.on('start', function (data) {
                 var opponent = "";
+                var name = App.getName();
+                var mode = 0;
                 console.log("start");
-                console.log(data);
                 if (data.id == self.getData().id) {
                     total = data.total;
 
-                    if (self.getData().name == data.users[0]) {
+                    if (name == data.users[0]) {
                         opponent = data.users[1];
                     }
                     else {
                         opponent = data.users[0];
+                        mode = 1;
                     }
 
                 }
                 $(".login").hide();
                 $(".invite").hide();
                 $(".bar").show();
-                console.log(self.getData().name, opponent);
-                $(".player_1 .player__name").text(self.getData().name);
+                $(".player_1 .player__name").text(name);
                 $(".player_2 .player__name").text(opponent);
-                Fight.init();
+                Fight.init(mode);
             });
 
             socket.on('query', function (data) {
+                console.log(data);
+                self.addQuestion(data.query);
                 //shortcutAction.text(data.query);
             });
 
@@ -387,14 +404,23 @@
                 self.socket.emit('join', self.getData());
                 return false;
             });
+
         },
         getData: function() {
             var name = "userName";
-            var parts = location.pathname.split("/")
+            var parts = location.pathname.split("/");
             return {
                 user: App.getName(),
                 id: parts[2] + "/" + parts[3]
             };
+        },
+        addQuestion: function(question) {
+            $el = $(".question").clone();
+            $el.find(".question__title").text(question);
+            $(".page").append($el.show());
+            setTimeout(function() {
+                $el.remove();
+            }, 5000);
         }
     };
     /*
