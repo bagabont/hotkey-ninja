@@ -1,4 +1,5 @@
 var router = require('express').Router(),
+    mongoose = require('mongoose'),
     Application = require('../models/application');
 
 module.exports = function () {
@@ -12,6 +13,7 @@ module.exports = function () {
                 var applications = [];
                 for (var i = 0; i < models.length; i++) {
                     var app = {
+                        id: models[i].id,
                         name: models[i].name,
                         platform: models[i].platform,
                         shortcuts: models[i].shortcuts
@@ -22,11 +24,12 @@ module.exports = function () {
             });
         });
 
-    router.param('name', function (req, res, next, name) {
-        var platform = req.query.platform;
+    router.param('id', function (req, res, next, id) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send();
+        }
         var query = {
-            name: name,
-            platform: platform
+            _id: id
         };
         Application.findOne(query, function (err, model) {
             if (err) {
@@ -37,7 +40,7 @@ module.exports = function () {
         });
     });
 
-    router.route('/:name')
+    router.route('/:id')
         .get(function (req, res, next) {
             var app = req.app;
             if (!app) {
@@ -49,25 +52,26 @@ module.exports = function () {
                 shortcuts: app.shortcuts
             });
         })
+        .delete(function (req, res, next) {
+            var app = req.app;
+            if (!app) {
+                return res.status(404).send();
+            }
+            Application.remove(req.app, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                return res.status(200).send();
+            });
+        });
+
+    router.route('/create')
         .post(function (req, res, next) {
             Application.create(req.body, function (err) {
                 if (err) {
                     return next(err);
                 }
                 res.status(201).send();
-            });
-        })
-        .delete(function (req, res, next) {
-            var app = req.app;
-            if (!app) {
-                return res.status(404).send();
-            }
-
-            Application.remove(req.app, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                return res.status(200).send();
             });
         });
 
