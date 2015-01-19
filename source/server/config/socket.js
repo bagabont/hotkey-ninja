@@ -7,17 +7,17 @@ module.exports = function (server) {
     var game = io.of('/socket').on('connection', function (socket) {
         console.log("user connected");
 
-        function log(){
+        function log() {
             var array = [">>> Message from server: "];
-          for (var i = 0; i < arguments.length; i++) {
-            array.push(arguments[i]);
-          }
+            for (var i = 0; i < arguments.length; i++) {
+                array.push(arguments[i]);
+            }
             socket.emit('log', array);
         }
 
         socket.on('message', function (message) {
             log('Got message: ', message);
-        // For a real app, should be room only (not broadcast)
+            // For a real app, should be room only (not broadcast)
             socket.broadcast.emit('message', message);
         });
 
