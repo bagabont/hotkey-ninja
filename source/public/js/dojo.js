@@ -1,6 +1,6 @@
 (function () {
     var Dojo = {
-        init: function() {
+        init: function () {
             var self = this;
             var counter = 0;
 
@@ -16,22 +16,27 @@
             var pc_constraints = {'optional': [{'DtlsSrtpKeyAgreement': true}]};
 
             // Set up audio and video regardless of what devices are present.
-            var sdpConstraints = {'mandatory': {
-              'OfferToReceiveAudio':true,
-              'OfferToReceiveVideo':true }};
+            var sdpConstraints = {
+                'mandatory': {
+                    'OfferToReceiveAudio': true,
+                    'OfferToReceiveVideo': true
+                }
+            };
 
             var k = new Kibo();
             var ev = [];
-            k.down('any', function(e) {
+            k.down('any', function (e) {
                 ev.push(e);
             });
-            k.up("any", function(e) {
-                if(ev.length > 0) {
-                    var r = _.map(ev, function(a) {return a.key});
+            k.up("any", function (e) {
+                if (ev.length > 0) {
+                    var r = _.map(ev, function (a) {
+                        return a.key
+                    });
                     r = r.join(" ");
                     console.log(r);
                 }
-                ev=[];
+                ev = [];
             });
 
 
@@ -60,7 +65,7 @@
                 console.log(data.players);
             });
 
-            socket.on('jointed', function (room){
+            socket.on('jointed', function (room) {
                 console.log('This peer has joined room ' + room);
                 isChannelReady = true;
             });
@@ -124,12 +129,12 @@
 
             ///////////////////////////
 
-            function sendMessage(message){
+            function sendMessage(message) {
                 console.log('Client sending message: ', message);
                 socket.emit('message', message);
             }
 
-            socket.on('message', function (message){
+            socket.on('message', function (message) {
                 console.log('Client received message:', message);
                 if (message === 'got user media') {
                     maybeStart();
@@ -158,17 +163,17 @@
             var remoteVideo = document.querySelector('#remoteVideo');
 
             function handleUserMedia(stream) {
-              console.log('Adding local stream.');
-              localVideo.src = window.URL.createObjectURL(stream);
-              localStream = stream;
-              sendMessage('got user media');
-              if (isInitiator) {
-                maybeStart();
-              }
+                console.log('Adding local stream.');
+                localVideo.src = window.URL.createObjectURL(stream);
+                localStream = stream;
+                sendMessage('got user media');
+                if (isInitiator) {
+                    maybeStart();
+                }
             }
 
-            function handleUserMediaError(error){
-              console.log('getUserMedia error: ', error);
+            function handleUserMediaError(error) {
+                console.log('getUserMedia error: ', error);
             }
 
             var constraints = {video: true};
@@ -177,236 +182,236 @@
             console.log('Getting user media with constraints', constraints);
 
             if (location.hostname != "localhost") {
-              requestTurn('https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913');
+                requestTurn('https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913');
             }
 
             function maybeStart() {
-              console.log('####################################');
-              console.log(!isStarted);
-              console.log(typeof localStream);
-              console.log(isChannelReady);
-              console.log('####################################');
-              if (!isStarted && typeof localStream != 'undefined' && isChannelReady) {
-                createPeerConnection();
-                pc.addStream(localStream);
-                isStarted = true;
-                console.log('isInitiator', isInitiator);
-                if (isInitiator) {
-                  doCall();
+                console.log('####################################');
+                console.log(!isStarted);
+                console.log(typeof localStream);
+                console.log(isChannelReady);
+                console.log('####################################');
+                if (!isStarted && typeof localStream != 'undefined' && isChannelReady) {
+                    createPeerConnection();
+                    pc.addStream(localStream);
+                    isStarted = true;
+                    console.log('isInitiator', isInitiator);
+                    if (isInitiator) {
+                        doCall();
+                    }
                 }
-              }
             }
 
-            window.onbeforeunload = function(e){
+            window.onbeforeunload = function (e) {
                 sendMessage('bye');
             }
 
             /////////////////////////////////////////////////////////
 
             function createPeerConnection() {
-              try {
-                pc = new RTCPeerConnection(null);
-                pc.onicecandidate = handleIceCandidate;
-                pc.onaddstream = handleRemoteStreamAdded;
-                pc.onremovestream = handleRemoteStreamRemoved;
-                console.log('Created RTCPeerConnnection');
-              } catch (e) {
-                console.log('Failed to create PeerConnection, exception: ' + e.message);
-                alert('Cannot create RTCPeerConnection object.');
-                  return;
-              }
+                try {
+                    pc = new RTCPeerConnection(null);
+                    pc.onicecandidate = handleIceCandidate;
+                    pc.onaddstream = handleRemoteStreamAdded;
+                    pc.onremovestream = handleRemoteStreamRemoved;
+                    console.log('Created RTCPeerConnnection');
+                } catch (e) {
+                    console.log('Failed to create PeerConnection, exception: ' + e.message);
+                    alert('Cannot create RTCPeerConnection object.');
+                    return;
+                }
             }
 
             function handleIceCandidate(event) {
-              console.log('handleIceCandidate event: ', event);
-              if (event.candidate) {
-                sendMessage({
-                  type: 'candidate',
-                  label: event.candidate.sdpMLineIndex,
-                  id: event.candidate.sdpMid,
-                  candidate: event.candidate.candidate});
-              } else {
-                console.log('End of candidates.');
-              }
+                console.log('handleIceCandidate event: ', event);
+                if (event.candidate) {
+                    sendMessage({
+                        type: 'candidate',
+                        label: event.candidate.sdpMLineIndex,
+                        id: event.candidate.sdpMid,
+                        candidate: event.candidate.candidate
+                    });
+                } else {
+                    console.log('End of candidates.');
+                }
             }
 
             function handleRemoteStreamAdded(event) {
-              console.log('Remote stream added.');
-              remoteVideo.src = window.URL.createObjectURL(event.stream);
-              remoteStream = event.stream;
+                console.log('Remote stream added.');
+                remoteVideo.src = window.URL.createObjectURL(event.stream);
+                remoteStream = event.stream;
             }
 
-            function handleCreateOfferError(event){
-              console.log('createOffer() error: ', e);
+            function handleCreateOfferError(event) {
+                console.log('createOffer() error: ', e);
             }
 
             function doCall() {
-              console.log('Sending offer to peer');
-              pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
+                console.log('Sending offer to peer');
+                pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
             }
 
             function doAnswer() {
-              console.log('Sending answer to peer.');
-              pc.createAnswer(setLocalAndSendMessage, null, sdpConstraints);
+                console.log('Sending answer to peer.');
+                pc.createAnswer(setLocalAndSendMessage, null, sdpConstraints);
             }
 
             function setLocalAndSendMessage(sessionDescription) {
-              // Set Opus as the preferred codec in SDP if Opus is present.
-              sessionDescription.sdp = preferOpus(sessionDescription.sdp);
-              pc.setLocalDescription(sessionDescription);
-              console.log('setLocalAndSendMessage sending message' , sessionDescription);
-              sendMessage(sessionDescription);
+                // Set Opus as the preferred codec in SDP if Opus is present.
+                sessionDescription.sdp = preferOpus(sessionDescription.sdp);
+                pc.setLocalDescription(sessionDescription);
+                console.log('setLocalAndSendMessage sending message', sessionDescription);
+                sendMessage(sessionDescription);
             }
 
             function requestTurn(turn_url) {
-              var turnExists = false;
-              for (var i in pc_config.iceServers) {
-                if (pc_config.iceServers[i].url.substr(0, 5) === 'turn:') {
-                  turnExists = true;
-                  turnReady = true;
-                  break;
+                var turnExists = false;
+                for (var i in pc_config.iceServers) {
+                    if (pc_config.iceServers[i].url.substr(0, 5) === 'turn:') {
+                        turnExists = true;
+                        turnReady = true;
+                        break;
+                    }
                 }
-              }
-              if (!turnExists) {
-                console.log('Getting TURN server from ', turn_url);
-                // No TURN server. Get one from computeengineondemand.appspot.com:
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function(){
-                  if (xhr.readyState === 4 && xhr.status === 200) {
-                    var turnServer = JSON.parse(xhr.responseText);
-                    console.log('Got TURN server: ', turnServer);
-                    pc_config.iceServers.push({
-                      'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
-                      'credential': turnServer.password
-                    });
-                    turnReady = true;
-                  }
-                };
-                xhr.open('GET', turn_url, true);
-                xhr.send();
-              }
+                if (!turnExists) {
+                    console.log('Getting TURN server from ', turn_url);
+                    // No TURN server. Get one from computeengineondemand.appspot.com:
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            var turnServer = JSON.parse(xhr.responseText);
+                            console.log('Got TURN server: ', turnServer);
+                            pc_config.iceServers.push({
+                                'url': 'turn:' + turnServer.username + '@' + turnServer.turn,
+                                'credential': turnServer.password
+                            });
+                            turnReady = true;
+                        }
+                    };
+                    xhr.open('GET', turn_url, true);
+                    xhr.send();
+                }
             }
 
             function handleRemoteStreamAdded(event) {
-              console.log('Remote stream added.');
-              remoteVideo.src = window.URL.createObjectURL(event.stream);
-              remoteStream = event.stream;
+                console.log('Remote stream added.');
+                remoteVideo.src = window.URL.createObjectURL(event.stream);
+                remoteStream = event.stream;
             }
 
             function handleRemoteStreamRemoved(event) {
-              console.log('Remote stream removed. Event: ', event);
+                console.log('Remote stream removed. Event: ', event);
             }
 
             function hangup() {
-              console.log('Hanging up.');
-              stop();
-              sendMessage('bye');
+                console.log('Hanging up.');
+                stop();
+                sendMessage('bye');
             }
 
             function handleRemoteHangup() {
-            //  console.log('Session terminated.');
-              // stop();
-              // isInitiator = false;
+                //  console.log('Session terminated.');
+                // stop();
+                // isInitiator = false;
             }
 
             function stop() {
-              isStarted = false;
-              // isAudioMuted = false;
-              // isVideoMuted = false;
-              pc.close();
-              pc = null;
+                isStarted = false;
+                // isAudioMuted = false;
+                // isVideoMuted = false;
+                pc.close();
+                pc = null;
             }
 
             ///////////////////////////////////////////
 
             // Set Opus as the default audio codec if it's present.
             function preferOpus(sdp) {
-              var sdpLines = sdp.split('\r\n');
-              var mLineIndex;
-              // Search for m line.
-              for (var i = 0; i < sdpLines.length; i++) {
-                  if (sdpLines[i].search('m=audio') !== -1) {
-                    mLineIndex = i;
-                    break;
-                  }
-              }
-              if (!mLineIndex) {
-                return sdp;
-              }
-
-              // If Opus is available, set it as the default in m line.
-              for (i = 0; i < sdpLines.length; i++) {
-                if (sdpLines[i].search('opus/48000') !== -1) {
-                  var opusPayload = extractSdp(sdpLines[i], /:(\d+) opus\/48000/i);
-                  if (opusPayload) {
-                    sdpLines[mLineIndex] = setDefaultCodec(sdpLines[mLineIndex], opusPayload);
-                  }
-                  break;
+                var sdpLines = sdp.split('\r\n');
+                var mLineIndex;
+                // Search for m line.
+                for (var i = 0; i < sdpLines.length; i++) {
+                    if (sdpLines[i].search('m=audio') !== -1) {
+                        mLineIndex = i;
+                        break;
+                    }
                 }
-              }
+                if (!mLineIndex) {
+                    return sdp;
+                }
 
-              // Remove CN in m line and sdp.
-              sdpLines = removeCN(sdpLines, mLineIndex);
+                // If Opus is available, set it as the default in m line.
+                for (i = 0; i < sdpLines.length; i++) {
+                    if (sdpLines[i].search('opus/48000') !== -1) {
+                        var opusPayload = extractSdp(sdpLines[i], /:(\d+) opus\/48000/i);
+                        if (opusPayload) {
+                            sdpLines[mLineIndex] = setDefaultCodec(sdpLines[mLineIndex], opusPayload);
+                        }
+                        break;
+                    }
+                }
 
-              sdp = sdpLines.join('\r\n');
-              return sdp;
+                // Remove CN in m line and sdp.
+                sdpLines = removeCN(sdpLines, mLineIndex);
+
+                sdp = sdpLines.join('\r\n');
+                return sdp;
             }
 
             function extractSdp(sdpLine, pattern) {
-              var result = sdpLine.match(pattern);
-              return result && result.length === 2 ? result[1] : null;
+                var result = sdpLine.match(pattern);
+                return result && result.length === 2 ? result[1] : null;
             }
 
             // Set the selected codec to the first in m line.
             function setDefaultCodec(mLine, payload) {
-              var elements = mLine.split(' ');
-              var newLine = [];
-              var index = 0;
-              for (var i = 0; i < elements.length; i++) {
-                if (index === 3) { // Format of media starts from the fourth.
-                  newLine[index++] = payload; // Put target payload to the first.
+                var elements = mLine.split(' ');
+                var newLine = [];
+                var index = 0;
+                for (var i = 0; i < elements.length; i++) {
+                    if (index === 3) { // Format of media starts from the fourth.
+                        newLine[index++] = payload; // Put target payload to the first.
+                    }
+                    if (elements[i] !== payload) {
+                        newLine[index++] = elements[i];
+                    }
                 }
-                if (elements[i] !== payload) {
-                  newLine[index++] = elements[i];
-                }
-              }
-              return newLine.join(' ');
+                return newLine.join(' ');
             }
 
             // Strip CN from sdp before CN constraints is ready.
             function removeCN(sdpLines, mLineIndex) {
-              var mLineElements = sdpLines[mLineIndex].split(' ');
-              // Scan from end for the convenience of removing an item.
-              for (var i = sdpLines.length-1; i >= 0; i--) {
-                var payload = extractSdp(sdpLines[i], /a=rtpmap:(\d+) CN\/\d+/i);
-                if (payload) {
-                  var cnPos = mLineElements.indexOf(payload);
-                  if (cnPos !== -1) {
-                    // Remove CN payload from m line.
-                    mLineElements.splice(cnPos, 1);
-                  }
-                  // Remove CN line in sdp
-                  sdpLines.splice(i, 1);
+                var mLineElements = sdpLines[mLineIndex].split(' ');
+                // Scan from end for the convenience of removing an item.
+                for (var i = sdpLines.length - 1; i >= 0; i--) {
+                    var payload = extractSdp(sdpLines[i], /a=rtpmap:(\d+) CN\/\d+/i);
+                    if (payload) {
+                        var cnPos = mLineElements.indexOf(payload);
+                        if (cnPos !== -1) {
+                            // Remove CN payload from m line.
+                            mLineElements.splice(cnPos, 1);
+                        }
+                        // Remove CN line in sdp
+                        sdpLines.splice(i, 1);
+                    }
                 }
-              }
 
-              sdpLines[mLineIndex] = mLineElements.join(' ');
-              return sdpLines;
+                sdpLines[mLineIndex] = mLineElements.join(' ');
+                return sdpLines;
             }
 
 
-
         },
-        initEvents: function (){
+        initEvents: function () {
             var self = this;
-            $(".login form").on("submit", function(e) {
+            $(".login form").on("submit", function (e) {
                 App.saveName($(".user-name").val());
                 self.socket.emit('join', self.getData());
                 return false;
             });
 
         },
-        getData: function() {
+        getData: function () {
             var name = "userName";
             var parts = location.pathname.split("/");
             return {
@@ -414,32 +419,32 @@
                 id: parts[2] + "/" + parts[3]
             };
         },
-        addQuestion: function(question) {
+        addQuestion: function (question) {
             $el = $(".question").clone();
             $el.find(".question__title").text(question);
             $(".page").append($el.show());
-            setTimeout(function() {
+            setTimeout(function () {
                 $el.remove();
             }, 5000);
         }
     };
     /*
-    answerForm.on('submit', function (e) {
-        e.preventDefault();
+     answerForm.on('submit', function (e) {
+     e.preventDefault();
 
-        if (answerInput.val().trim().length) {
-            var answer = answerInput.val();
+     if (answerInput.val().trim().length) {
+     var answer = answerInput.val();
 
-            // Submit answer
-            socket.emit('answer', {
-                answer: answer,
-                user: username
-            });
-        }
+     // Submit answer
+     socket.emit('answer', {
+     answer: answer,
+     user: username
+     });
+     }
 
-        // Empty the answer text
-        answerInput.val("");
-    });
-    */
+     // Empty the answer text
+     answerInput.val("");
+     });
+     */
     $(Dojo.init.bind(Dojo));
 })();

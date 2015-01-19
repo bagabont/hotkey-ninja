@@ -1,8 +1,8 @@
 (function () {
     window.Fight = {
-        init: function(mode) {
+        init: function (mode) {
             var self = this;
-            var fighters = [{ name: 'Subzero' }, { name: 'Kano' }]
+            var fighters = [{name: 'Subzero'}, {name: 'Kano'}]
             if (mode === 1) {
                 fighters = fighters.reverse();
             }
@@ -26,14 +26,15 @@
                 },
                 gameType: 'basic'
             };
-            mk.start(options).ready(function () {});
+            mk.start(options).ready(function () {
+            });
         },
 
-        setLife: function(container, life) {
+        setLife: function (container, life) {
             container.find(".player__health-inner").width(life + "%");
         },
 
-        kick: function() {
+        kick: function () {
             mk.game._moveFighter(mk.game.fighters[0], _.sample(this.moves));
         },
 
