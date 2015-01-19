@@ -6,6 +6,7 @@ module.exports = function (config, app, passport) {
     //Initialize passport
     app.use(passport.initialize());
 
+    // Create default administrator account, if it does not exist
     (function createAdminAccount() {
         User.findOne({username: 'admin'}, function (err, user) {
             if (err) {
@@ -14,6 +15,7 @@ module.exports = function (config, app, passport) {
             if (user) {
                 return
             }
+
             user = new User({
                 username: 'admin',
                 password: 'admin'
