@@ -2,7 +2,7 @@ var router = require('express').Router(),
     mongoose = require('mongoose'),
     Application = require('../models/application');
 
-module.exports = function () {
+module.exports = function (passport) {
 
     router.route('/')
         .get(function (req, res, next) {
@@ -52,7 +52,7 @@ module.exports = function () {
                 shortcuts: app.shortcuts
             });
         })
-        .delete(function (req, res, next) {
+        .delete(passport.authenticate('basic', {session: false}), function (req, res, next) {
             var app = req.app;
             if (!app) {
                 return res.status(404).send();
@@ -63,9 +63,11 @@ module.exports = function () {
                 }
                 return res.status(200).send();
             });
-        });
+        }
+    );
 
     router.route('/create')
+        .all(passport.authenticate('basic', {session: false}))
         .post(function (req, res, next) {
             Application.create(req.body, function (err) {
                 if (err) {

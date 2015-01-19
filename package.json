@@ -10,6 +10,8 @@
 	"gulp-nodemon": "^1.0.5",
 	"jade": "1.8.1",
 	"mongoose": "3.8.20",
-	"socket.io": "1.2.1"
+	"socket.io": "1.2.1",
+	"passport": "^0.2.1",
+	"passport-http": "^0.2.2"
   }
 }
