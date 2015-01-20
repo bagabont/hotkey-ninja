@@ -1,5 +1,5 @@
 (function () {
-    window.Fight = {
+    Fight = {
         init: function (mode) {
             var self = this;
             var fighters = [{name: 'Subzero'}, {name: 'Kano'}]
@@ -35,7 +35,15 @@
         },
 
         kick: function () {
-            mk.game._moveFighter(mk.game.fighters[0], _.sample(this.moves));
+            mk.game._moveFighter(mk.game.fighters[0], "walking");
+            setTimeout(function() {
+                mk.game._moveFighter(mk.game.fighters[0], "stand");
+                mk.game._moveFighter(mk.game.fighters[0], kick.toLowerCase().replace("_", "-"));
+            }, 1000);
+        },
+        opponentKick: function() {
+            kick = "FORWARD-JUMP-KICK";
+            mk.game._moveFighter(mk.game.fighters[1], kick.toLowerCase().replace("_", "-"));
         },
 
         moves: [
@@ -47,8 +55,6 @@
             "SQUAT_LOW_KICK",
             "SQUAT_HIGH_KICK",
             "SQUAT_LOW_PUNCH",
-            "FORWARD_JUMP_KICK",
-            "FORWARD_JUMP_PUNCH"
         ]
     };
 })();

@@ -115,12 +115,9 @@
             socket.on('query', function (data) {
                 console.log(data);
                 self.addQuestion(data.query);
-                //shortcutAction.text(data.query);
             });
 
             socket.on('game over', function (data) {
-                //queryArea.remove();
-                //winnerName.text(data.winner);
             });
 
             socket.on('leave', function (data) {
@@ -130,15 +127,11 @@
             });
 
             socket.on('progress', function (data) {
-                console.log(data);
-                /*
-                if (data.user === username) {
-                    playerName.text(username + ' Score: [' + data.score + '/' + total + ']');
+                if (data.user === self.name && data.isCorrect) {
+                    Fight.kick();
+                } else {
+                    Fight.opponentKick();
                 }
-                if (data.user === opponent) {
-                    opponentName.text(opponent + ' Score: [' + data.score + '/' + total + ']');
-                }
-                */
             });
 
             socket.on('full', function (data) {
@@ -440,12 +433,19 @@
             };
         },
         addQuestion: function (question) {
-            $el = $(".question").clone();
+            var self = this;
+            var $holder = $(".questions");
+            $holder.empty();
+            var $el = $(".question").clone();
             $el.find(".question__title").text(question);
-            $(".page").append($el.show());
-            setTimeout(function () {
+            $holder.append($el.show());
+            $el.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
                 $el.remove();
-            }, 5000);
+                self.socket.emit('answer', {
+                    answer: "",
+                    user: self.name
+                });
+            });
         }
     };
 
