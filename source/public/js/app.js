@@ -19,7 +19,10 @@ var App = {
             self.saveName($(".user-name").val());
             return true;
         });
-    }
+    },
+    isIntiator: false,
+    isChannelReady: false,
+    socket: io.connect('/socket')
 };
 
 $(App.init.bind(App));
