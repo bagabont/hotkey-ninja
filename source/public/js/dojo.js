@@ -247,7 +247,9 @@
 
             function doAnswer() {
               console.log('Sending answer to peer.');
-              pc.createAnswer(setLocalAndSendMessage, null, sdpConstraints);
+              pc.createAnswer(setLocalAndSendMessage, (function(){
+                console.log("error in Answer");
+              }), sdpConstraints);
             }
 
             function setLocalAndSendMessage(sessionDescription) {
