@@ -1,0 +1,26 @@
+{
+    "name": "Notepad++",
+    "platform": "windows",
+    "shortcuts": [
+        {
+            "combination": "ctrl+a",
+            "action": "Select all"
+        },
+        {
+            "combination": "ctrl+v",
+            "action": "Paste text"
+        },
+        {
+            "combination": "ctrl+c",
+            "action": "Copy text"
+        },
+        {
+            "combination": "alt+f4",
+            "action": "Exit application"
+        },
+        {
+            "combination": "ctrl+w",
+            "action": "Close current document"
+        }
+    ]
+}

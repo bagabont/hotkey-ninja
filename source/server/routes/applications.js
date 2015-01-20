@@ -1,11 +1,11 @@
 var router = require('express').Router(),
+    mongoose = require('mongoose'),
     Application = require('../models/application');
 
-module.exports = function () {
+module.exports = function (passport) {
 
     router.route('/')
         .get(function (req, res, next) {
-            console.log(Application);
             Application.find({}, function (err, models) {
                 if (err) {
                     return next(err);
@@ -13,30 +13,67 @@ module.exports = function () {
                 var applications = [];
                 for (var i = 0; i < models.length; i++) {
                     var app = {
+                        id: models[i].id,
                         name: models[i].name,
+                        platform: models[i].platform,
                         shortcuts: models[i].shortcuts
                     };
                     applications.push(app);
                 }
-                console.log(applications)
                 res.send(applications);
             });
         });
 
-    router.route('/:name')
+    router.param('id', function (req, res, next, id) {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send();
+        }
+        var query = {
+            _id: id
+        };
+        Application.findOne(query, function (err, model) {
+            if (err) {
+                return next(err)
+            }
+            req.app = model;
+            next();
+        });
+    });
+
+    router.route('/:id')
         .get(function (req, res, next) {
-            var appName = req.params.name;
-            Application.findOne({name: appName}, function (err, model) {
+            var app = req.app;
+            if (!app) {
+                return res.status(404).send();
+            }
+            res.send({
+                name: app.name,
+                platform: app.platform,
+                shortcuts: app.shortcuts
+            });
+        })
+        .delete(passport.authenticate('basic', {session: false}), function (req, res, next) {
+            var app = req.app;
+            if (!app) {
+                return res.status(404).send();
+            }
+            Application.remove(req.app, function (err) {
                 if (err) {
                     return next(err);
                 }
-                if (!model) {
-                    return res.status(404).send();
+                return res.status(200).send();
+            });
+        }
+    );
+
+    router.route('/create')
+        .all(passport.authenticate('basic', {session: false}))
+        .post(function (req, res, next) {
+            Application.create(req.body, function (err) {
+                if (err) {
+                    return next(err);
                 }
-                res.send({
-                    name: model.name,
-                    shortcuts: model.shortcuts
-                });
+                res.status(201).send();
             });
         });
 

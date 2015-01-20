@@ -8,34 +8,34 @@ canvas {
     display: block;
 }
 
-.page{
+.page {
     width: 100%;
     height: 100%;
     background: url("../img/1.gif") no-repeat center center;
     background-size: cover;
 }
 
-.page__content{
+.page__content {
 }
 
 .page__title {
     color: #FFFFFF;
-    text-shadow: 0px 0px 2px rgba(0,0,0,0.8);
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
 }
 
-.createbox{
+.createbox {
     margin-top: 200px;
     padding: 20px 40px 40px;
-    background-color: rgba(40,40,40,0.5);
+    background-color: rgba(40, 40, 40, 0.5);
 }
 
-.createdbox__title{
+.createdbox__title {
     font-size: 55px;
     color: white;
     margin-bottom: 20px;
 }
 
-.createbox .createdbox__button{
+.createbox .createdbox__button {
     padding: 0 30px;
     color: #4C4C4C;
     height: 50px;
@@ -47,10 +47,10 @@ canvas {
     box-shadow: 0px 0px 10px #fff;
 }
 
-.createbox .createbox__input{
+.createbox .createbox__input {
 }
 
-.invite .createbox{
+.invite .createbox {
     color: white;
 }
 
@@ -75,23 +75,27 @@ canvas {
 .player {
     padding: 30px 20px;
 }
+
 .player img {
-    box-shadow: 0 0 4px rgba(0,0,0,0.4);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
+
 .player__health {
     height: 30px;
     border: 2px solid #ffffff;
     width: 100%;
 }
+
 .player__health-inner {
     background-color: rgba(200, 30, 30, 0.7);
     height: 100%;
 }
+
 .player__name {
     color: #FFFFFF;
     font-size: 45px;
     margin-top: 10px;
-    text-shadow: 0px 0px 2px rgba(0,0,0,0.8);
+    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
 }
 
 .question {
@@ -101,7 +105,7 @@ canvas {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 0 40px 10px rgba(20, 140, 20, 0.5);
     text-align: center;
     overflow: hidden;
@@ -109,6 +113,7 @@ canvas {
     -moz-animation: a-shadow 5s linear;
     animation: a-shadow 5s linear;
 }
+
 .question__progress {
     height: 0;
     background-color: green;
@@ -116,6 +121,7 @@ canvas {
     -moz-animation: a-progress 5s linear;
     animation: a-progress 5s linear;
 }
+
 .question__inner {
     border-radius: 50%;
     position: absolute;
@@ -124,14 +130,15 @@ canvas {
     z-index: 10;
     width: 190px;
     height: 190px;
-    background-color:rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     padding-top: 60px;
 
 }
+
 .question__title {
     color: #111;
     font-weight: bold;
-    text-shadow: 0px 0px 2px rgba(255,255,255,0.8);
+    text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.8);
 
 }
 
@@ -145,6 +152,7 @@ canvas {
         background-color: red;
     }
 }
+
 @keyframes a-progress {
     from {
         height: 0%;

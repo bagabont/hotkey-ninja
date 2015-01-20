@@ -1,4 +1,5 @@
 var http = require('http'),
+    passport = require('passport'),
     express = require('express');
 
 // get configuration
@@ -12,7 +13,8 @@ var server = http.createServer(app);
 
 // configure server
 require('./config/mongoose')(config);
-require('./config/express')(config, app);
+require('./config/passport')(passport);
+require('./config/express')(config, app, passport);
 require('./config/socket')(server);
 
 module.exports = server;

@@ -1,21 +1,23 @@
 (function () {
     var Dojo = {
-        init: function() {
+        init: function () {
             var self = this;
             var counter = 0;
 
             var k = new Kibo();
             var ev = [];
-            k.down('any', function(e) {
+            k.down('any', function (e) {
                 ev.push(e);
             });
-            k.up("any", function(e) {
-                if(ev.length > 0) {
-                    var r = _.map(ev, function(a) {return a.key});
+            k.up("any", function (e) {
+                if (ev.length > 0) {
+                    var r = _.map(ev, function (a) {
+                        return a.key
+                    });
                     r = r.join(" ");
                     console.log(r);
                 }
-                ev=[];
+                ev = [];
             });
 
 
@@ -46,7 +48,7 @@
                 console.log(data.players);
             });
 
-            socket.on('jointed', function (room){
+            socket.on('jointed', function (room) {
                 console.log('This peer has joined room ' + room);
                 App.isChannelReady = true;
             });
@@ -111,16 +113,16 @@
 
 
         },
-        initEvents: function (){
+        initEvents: function () {
             var self = this;
-            $(".login form").on("submit", function(e) {
+            $(".login form").on("submit", function (e) {
                 App.saveName($(".user-name").val());
                 self.socket.emit('join', self.getData());
                 return false;
             });
 
         },
-        getData: function() {
+        getData: function () {
             var name = "userName";
             var parts = location.pathname.split("/");
             return {
@@ -128,32 +130,32 @@
                 id: parts[2] + "/" + parts[3]
             };
         },
-        addQuestion: function(question) {
+        addQuestion: function (question) {
             $el = $(".question").clone();
             $el.find(".question__title").text(question);
             $(".page").append($el.show());
-            setTimeout(function() {
+            setTimeout(function () {
                 $el.remove();
             }, 5000);
         }
     };
     /*
-    answerForm.on('submit', function (e) {
-        e.preventDefault();
+     answerForm.on('submit', function (e) {
+     e.preventDefault();
 
-        if (answerInput.val().trim().length) {
-            var answer = answerInput.val();
+     if (answerInput.val().trim().length) {
+     var answer = answerInput.val();
 
-            // Submit answer
-            socket.emit('answer', {
-                answer: answer,
-                user: username
-            });
-        }
+     // Submit answer
+     socket.emit('answer', {
+     answer: answer,
+     user: username
+     });
+     }
 
-        // Empty the answer text
-        answerInput.val("");
-    });
-    */
+     // Empty the answer text
+     answerInput.val("");
+     });
+     */
     $(Dojo.init.bind(Dojo));
 })();
