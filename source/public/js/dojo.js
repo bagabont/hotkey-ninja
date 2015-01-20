@@ -23,26 +23,42 @@
                 }
             };
 
-            var k = new Kibo();
-            var ev = [];
-            k.down('any', function (e) {
-                ev.push(e);
-            });
-            k.up("any", function (e) {
-                if (ev.length > 0) {
-                    var r = _.map(ev, function (a) {
-                        return a.key
-                    });
-                    r = r.join(" ");
-                    console.log(r);
-                }
-                ev = [];
-            });
-
-
             // connect to the socket
             var socket = io.connect('/socket');
             this.socket = socket;
+
+            var k = new Kibo();
+            var events = [];
+            var nameMap = {
+                "Control": "ctrl",
+                "Alt": "alt",
+                "Shift": "shift",
+                "Meta": "ctrl"
+            };
+            k.down("any", function (e) {
+                events.push(e);
+            });
+            k.up("any", function (e) {
+                if (events.length > 0) {
+                    var combination = _.map(events, function (event) {
+                        keyName = event.key;
+                        if(_.contains(_.keys(nameMap), keyName)) {
+                            keyName = nameMap[keyName];
+                        }
+                        return keyName;
+                    });
+
+                    // Submit answer
+                    socket.emit('answer', {
+                        answer: combination.join("+"),
+                        user: self.name
+                    });
+                }
+                events = [];
+            });
+
+
+
             // on connection to server get the id of person's room
             socket.on('connect', function () {
                 console.log("connect");
@@ -73,6 +89,7 @@
             socket.on('start', function (data) {
                 var opponent = "";
                 var name = App.getName();
+                self.name = name;
                 var mode = 0;
                 console.log("start");
                 if (data.id == self.getData().id) {
@@ -113,12 +130,15 @@
             });
 
             socket.on('progress', function (data) {
+                console.log(data);
+                /*
                 if (data.user === username) {
                     playerName.text(username + ' Score: [' + data.score + '/' + total + ']');
                 }
                 if (data.user === opponent) {
                     opponentName.text(opponent + ' Score: [' + data.score + '/' + total + ']');
                 }
+                */
             });
 
             socket.on('full', function (data) {
@@ -428,23 +448,6 @@
             }, 5000);
         }
     };
-    /*
-     answerForm.on('submit', function (e) {
-     e.preventDefault();
 
-     if (answerInput.val().trim().length) {
-     var answer = answerInput.val();
-
-     // Submit answer
-     socket.emit('answer', {
-     answer: answer,
-     user: username
-     });
-     }
-
-     // Empty the answer text
-     answerInput.val("");
-     });
-     */
     $(Dojo.init.bind(Dojo));
 })();
