@@ -2,6 +2,7 @@
     var Dojo = {
         init: function () {
             var self = this;
+            self.questions = [];
             var counter = 0;
 
             var k = new Kibo();
@@ -89,6 +90,9 @@
                 $(".player_1 .player__name").text(name);
                 $(".player_2 .player__name").text(opponent);
                 Fight.init(mode);
+                setTimeout(function () {
+                    self.showQuestion();
+                }, 3000);
             });
 
             socket.on('query', function (data) {
@@ -106,9 +110,15 @@
             socket.on('progress', function (data) {
                 if (data.user === self.name && data.isCorrect) {
                     Fight.kick();
+                    self.$question.addClass("success");
                 } else {
                     Fight.opponentKick();
+                    self.$question.addClass("fail");
                 }
+                self.$question.find(".question__title").text(data.answer);
+                setTimeout(function() {
+                    self.showQuestion();
+                }, 500);
             });
 
             socket.on('full', function (data) {
@@ -135,11 +145,16 @@
                 id: parts[2] + "/" + parts[3]
             };
         },
-        addQuestion: function (question) {
+        addQuestion: function(question) {
+            this.questions.push(question);
+        },
+        showQuestion: function () {
             var self = this;
+            var question = self.questions.pop();
             var $holder = $(".questions");
             $holder.empty();
             var $el = $(".question").clone();
+            self.$question = $el;
             $el.find(".question__title").text(question);
             $holder.append($el.show());
             $el.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
