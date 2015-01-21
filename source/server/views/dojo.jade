@@ -7,7 +7,7 @@ block main-content
         .row
             .col-xs-5
                 .row.player.player_1
-                    .col-xs-4
+                    .col-xs-4.player__img(style='display: none')
                         img.localImg.img-responsive(src="/img/default_avatar.jpg")
                         video#localVideo.img-responsive(autoplay muted)
                     .col-xs-8.player__info(style='display: none')
@@ -22,7 +22,7 @@ block main-content
                         .player__health
                             .player__health-inner
                         h1.player__name.text-right Player 2
-                    .col-xs-4
+                    .col-xs-4.player__img(style='display: none')
                         img.remoteImg.img-responsive(src="/img/default_avatar.jpg")
                         video#remoteVideo.img-responsive(autoplay='')                          
 
