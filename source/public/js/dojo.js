@@ -86,7 +86,8 @@
                 }
                 $(".login").hide();
                 $(".invite").hide();
-                $(".bar .player__info .player__img").show();
+                $(".bar .player__info").show();
+                $(".player__img").show();
                 $(".player_1 .player__name").text(name);
                 $(".player_2 .player__name").text(opponent);
                 Fight.init(mode);
