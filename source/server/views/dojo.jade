@@ -8,6 +8,7 @@ block main-content
             .col-xs-5
                 .row.player.player_1
                     .col-xs-4
+                        img.localImg.img-responsive(src="/img/default_avatar.jpg")
                         video#localVideo.img-responsive(autoplay muted)
                     .col-xs-8.player__info(style='display: none')
                         .player__health
@@ -22,6 +23,7 @@ block main-content
                             .player__health-inner
                         h1.player__name.text-right Player 2
                     .col-xs-4
+                        img.remoteImg.img-responsive(src="/img/default_avatar.jpg")
                         video#remoteVideo.img-responsive(autoplay='')                          
 
     .questions
