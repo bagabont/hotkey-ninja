@@ -1,5 +1,6 @@
 extends includes/layout
 block js
+    script(type="text/javascript" src="/js/webrtc.js")
     script(type="text/javascript" src="/js/dojo.js")
 block main-content
     .bar
@@ -9,7 +10,7 @@ block main-content
                     .col-xs-4
                         img.localImg.img-responsive(src="/img/default_avatar.jpg")
                         video#localVideo.img-responsive(autoplay muted)
-                    .col-xs-8
+                    .col-xs-8.player__info(style='display: none')
                         .player__health
                             .player__health-inner
                         h1.player__name Palyer 1
@@ -17,7 +18,7 @@ block main-content
                 h1.page__title.text-center Notepad++ fight
             .col-xs-5
                 .row.player.player_2
-                    .col-xs-8
+                    .col-xs-8.player__info(style='display: none')
                         .player__health
                             .player__health-inner
                         h1.player__name.text-right Player 2

@@ -56,7 +56,6 @@
                 if (data.players === 1) {
                     App.isChannelReady = true;
                     $(".login").show();
-                    socket.emit('join', self.getData());
                 }
                 console.log(data.players);
             });
@@ -86,7 +85,7 @@
                 }
                 $(".login").hide();
                 $(".invite").hide();
-                $(".bar").show();
+                $(".bar .player__info").show();
                 $(".player_1 .player__name").text(name);
                 $(".player_2 .player__name").text(opponent);
                 Fight.init(mode);
@@ -117,12 +116,8 @@
                 console.log('Game is full.');
             });
             this.initEvents();
-
-
-
-
-
         },
+
         initEvents: function () {
             var self = this;
             $(".login form").on("submit", function (e) {
