@@ -50,6 +50,7 @@ $(function() {
 
     function handleUserMedia(stream) {
       console.log('Adding local stream.');
+      $(".localImg").hide();
       localVideo.src = window.URL.createObjectURL(stream);
       localStream = stream;
       sendMessage('got user media');
@@ -123,6 +124,7 @@ $(function() {
 
     function handleRemoteStreamAdded(event) {
       console.log('Remote stream added.');
+      $(".remoteImg").hide();
       remoteVideo.src = window.URL.createObjectURL(event.stream);
       remoteStream = event.stream;
     }
@@ -184,6 +186,7 @@ $(function() {
 
     function handleRemoteStreamAdded(event) {
       console.log('Remote stream added.');
+      $(".remoteImg").hide();
       remoteVideo.src = window.URL.createObjectURL(event.stream);
       remoteStream = event.stream;
     }
