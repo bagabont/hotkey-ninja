@@ -2,7 +2,7 @@
     Fight = {
         init: function (mode) {
             var self = this;
-            var fighters = [{name: 'Subzero'}, {name: 'Kano'}]
+            var fighters = [{name: 'subzero'}, {name: 'kano'}];
             if (mode === 1) {
                 fighters = fighters.reverse();
             }
@@ -16,7 +16,8 @@
                 fighters: fighters,
                 callbacks: {
                     attack: function (f, o, l) {
-                        if (o.getName() === fighters[1].name) {
+                        console.log(o.getName());
+                        if (o.getName() === fighters[0].name) {
                             self.setLife($('.player_1'), o.getLife());
                         } else {
                             self.setLife($('.player_2'), o.getLife());
