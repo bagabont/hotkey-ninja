@@ -93,7 +93,6 @@ module.exports = function (server) {
 
                     // if both players are present start the game
                     if (clients.length === 2) {
-                        console.log("now!");
                         // attach shortcuts list
                         for (var i = 0; i < clients.length; i++) {
                             clients[i].shortcuts = shortcuts;
@@ -141,7 +140,8 @@ module.exports = function (server) {
                 game.in(this.room).emit('progress', {
                     id: data.id,
                     score: socket.score,
-                    user: socket.username
+                    user: socket.username,
+                    isCorrect: isCorrect
                 });
 
                 var next = progress + 1;

@@ -5,21 +5,34 @@
             var counter = 0;
 
             var k = new Kibo();
-            var ev = [];
-            k.down('any', function (e) {
-                ev.push(e);
+            var events = [];
+            var nameMap = {
+                "Control": "ctrl",
+                "Alt": "alt",
+                "Shift": "shift",
+                "Meta": "ctrl"
+            };
+            k.down("any", function (e) {
+                events.push(e);
             });
             k.up("any", function (e) {
-                if (ev.length > 0) {
-                    var r = _.map(ev, function (a) {
-                        return a.key
+                if (events.length > 0) {
+                    var combination = _.map(events, function (event) {
+                        keyName = event.key;
+                        if(_.contains(_.keys(nameMap), keyName)) {
+                            keyName = nameMap[keyName];
+                        }
+                        return keyName;
                     });
-                    r = r.join(" ");
-                    console.log(r);
-                }
-                ev = [];
-            });
 
+                    // Submit answer
+                    socket.emit('answer', {
+                        answer: combination.join("+"),
+                        user: self.name
+                    });
+                }
+                events = [];
+            });
 
             // connect to the socket
             var socket = App.socket;
@@ -56,6 +69,7 @@
             socket.on('start', function (data) {
                 var opponent = "";
                 var name = App.getName();
+                self.name = name;
                 var mode = 0;
                 console.log("start");
                 if (data.id == self.getData().id) {
@@ -81,12 +95,9 @@
             socket.on('query', function (data) {
                 console.log(data);
                 self.addQuestion(data.query);
-                //shortcutAction.text(data.query);
             });
 
             socket.on('game over', function (data) {
-                //queryArea.remove();
-                //winnerName.text(data.winner);
             });
 
             socket.on('leave', function (data) {
@@ -94,11 +105,10 @@
             });
 
             socket.on('progress', function (data) {
-                if (data.user === username) {
-                    playerName.text(username + ' Score: [' + data.score + '/' + total + ']');
-                }
-                if (data.user === opponent) {
-                    opponentName.text(opponent + ' Score: [' + data.score + '/' + total + ']');
+                if (data.user === self.name && data.isCorrect) {
+                    Fight.kick();
+                } else {
+                    Fight.opponentKick();
                 }
             });
 
@@ -108,7 +118,7 @@
             });
             this.initEvents();
 
-            
+
 
 
 
@@ -131,31 +141,21 @@
             };
         },
         addQuestion: function (question) {
-            $el = $(".question").clone();
+            var self = this;
+            var $holder = $(".questions");
+            $holder.empty();
+            var $el = $(".question").clone();
             $el.find(".question__title").text(question);
-            $(".page").append($el.show());
-            setTimeout(function () {
+            $holder.append($el.show());
+            $el.one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function () {
                 $el.remove();
-            }, 5000);
+                self.socket.emit('answer', {
+                    answer: "",
+                    user: self.name
+                });
+            });
         }
     };
-    /*
-     answerForm.on('submit', function (e) {
-     e.preventDefault();
 
-     if (answerInput.val().trim().length) {
-     var answer = answerInput.val();
-
-     // Submit answer
-     socket.emit('answer', {
-     answer: answer,
-     user: username
-     });
-     }
-
-     // Empty the answer text
-     answerInput.val("");
-     });
-     */
     $(Dojo.init.bind(Dojo));
 })();
