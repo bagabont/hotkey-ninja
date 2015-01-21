@@ -141,7 +141,8 @@ module.exports = function (server) {
                     id: data.id,
                     score: socket.score,
                     user: socket.username,
-                    isCorrect: isCorrect
+                    isCorrect: isCorrect,
+                    answer: expected
                 });
 
                 var next = progress + 1;
