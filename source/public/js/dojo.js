@@ -111,14 +111,17 @@
                 if (data.user === self.name && data.isCorrect) {
                     Fight.kick();
                     self.$question.addClass("success");
+                    setTimeout(function() {
+                        self.showQuestion();
+                    }, 200);
                 } else {
                     Fight.opponentKick();
                     self.$question.addClass("fail");
+                    self.$question.find(".question__title").text(data.answer);
+                    setTimeout(function() {
+                        self.showQuestion();
+                    }, 500);
                 }
-                self.$question.find(".question__title").text(data.answer);
-                setTimeout(function() {
-                    self.showQuestion();
-                }, 500);
             });
 
             socket.on('full', function (data) {
