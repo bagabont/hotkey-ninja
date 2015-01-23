@@ -202,8 +202,8 @@ $(function() {
     }
 
     function handleRemoteHangup() {
-    //  console.log('Session terminated.');
-      // stop();
+      console.log('Session terminated. by terminator');
+      stop();
       // isInitiator = false;
     }
 
