@@ -31,6 +31,7 @@ module.exports = function (server) {
                     socket.emit('loaded', {players: 0});
                     break;
                 case 1:
+                    socket.broadcast.emit('jointed', "")
                     socket.emit('loaded', {
                         players: 1,
                         user: clients[0].username,
