@@ -947,8 +947,6 @@
 
   mk.moves.FiniteMove.prototype.keepDistance = function () {
     var currentBottom = this.owner.getBottom();
-    console.log(this);
-    console.log([currentBottom, this.owner.getY(), this._bottom]);
     if (currentBottom > this._bottom) {
       this.owner.setY(this.owner.getY() + currentBottom - this._bottom);
     }
@@ -1584,7 +1582,7 @@
     this._name = name;
     this._arena = options.arena;
     this._game = options.game;
-    this._life = 100;
+    this._life = 50;
     this._orientation = options.orientation;
     this._width = 60;
     this._height = 120;

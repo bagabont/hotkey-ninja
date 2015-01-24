@@ -20,17 +20,21 @@
             k.up("any", function (e) {
                 if (events.length > 0) {
                     var combination = _.map(events, function (event) {
-                        keyName = event.key;
-                        //keyName = String.fromCharCode(event.which);
-                        //if (!_.isString(keyName)) {
-                            //keyName = event.key || event.keyIdentifier;
-                        //}
-                        //console.log(_.isString(keyName));
-                        //console.log(keyName);
+                        if (event.key !== undefined) {
+                            keyName = event.key;
+                        } else if (event.keyIdentifier !== undefined) {
+                            keyName = event.keyIdentifier;
+                            if (!_.contains(_.keys(nameMap), keyName)) {
+                                keyName = String.fromCharCode(event.which);
+                            }
+                        } else if (event.keyCode !== undefined) {
+                            keyName = String.fromCharCode(event.which);
+                        }
+
                         if(_.contains(_.keys(nameMap), keyName)) {
                             keyName = nameMap[keyName];
                         }
-                        return keyName;
+                        return keyName.toLowerCase();
                     });
 
                     // Submit answer
