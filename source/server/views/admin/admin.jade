@@ -1,0 +1,20 @@
+doctype
+html
+    head
+        title #{title}
+        link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
+    body
+        .container
+            .row
+                .col-md-8
+                    .panel-body
+                        table.table.table-bordered.table-hover
+                            caption Applications
+                            tbody
+                            each app in applications
+                                tr
+                                    td.col-md-8
+                                        a(href="/admin/edit/" + app.id) #{app.name}
+                                    td.col-sm-1
+                                        input(type="button", value="Remove").btn.btn-danger
+                        input(type="button" value="Create new application").btn.btn-info.pull-right

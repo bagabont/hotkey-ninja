@@ -18,7 +18,7 @@ module.exports = function (passport) {
                     };
                     applications.push(app);
                 }
-                res.render('admin', {
+                res.render('./admin/admin', {
                     title: 'Admin Panel',
                     applications: applications
                 });
@@ -37,7 +37,7 @@ module.exports = function (passport) {
                     platform: model.platform,
                     shortcuts: model.shortcuts
                 };
-                res.render('edit', {
+                res.render('./admin/edit', {
                     title: 'Edit Application',
                     application: app
                 });
