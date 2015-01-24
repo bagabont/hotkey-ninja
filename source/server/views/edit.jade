@@ -2,20 +2,27 @@ doctype
 html
     head
         title #{title}
+        link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
     body
-        table
-            caption #{application.name}
-            thead
-                td Actions
-                td Shortcuts
-            tbody
-                each shortcut in application.shortcuts
-                    tr
-                        td
-                            input(type="text", value=shortcut.action)
-                        td
-                            input(type="text", value=shortcut.combination)
-                        td
-                            input(type="button", value="update")
-                            input(type="button", value="remove")
-        input(type="button" value="add")
+        .container
+            .row
+                .col-md-8
+                    .panel-body
+                        table.table.table-bordered.table-hover
+                            caption
+                                input(type="text", value=application.name).form-control.input-lg
+                            thead
+                                td Actions
+                                td Shortcuts
+                                td Edit
+                            tbody
+                                each shortcut in application.shortcuts
+                                    tr
+                                        td.col-md-4
+                                            input(type="text", value=shortcut.action).form-control
+                                        td.col-md-3
+                                            input(type="text", value=shortcut.combination).form-control
+                                        td.col-sm-1
+                                            input(type="button", value="Remove").btn.btn-danger
+                        input(type="button" value="Add new shortcut").btn.btn-info.pull-left
+                        input(type="button" value="Save").btn.btn-success.pull-right.btn-lg

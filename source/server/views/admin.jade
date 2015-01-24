@@ -2,8 +2,15 @@ doctype
 html
     head
         title #{title}
+        link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
     body
-        ul
+        input(type="button" value="Create").btn.btn-info
+        table.table.table-bordered.table-hover
+            caption Applications
+            tbody
             each app in applications
-                li
-                    a(href="/admin/edit/" + app.id) #{app.name}
+                tr
+                    td
+                        a(href="/admin/edit/" + app.id) #{app.name}
+                    td
+                        input(type="button", value="Remove").btn.btn-danger
