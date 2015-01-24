@@ -80,6 +80,7 @@
             });
 
             socket.on('start', function (data) {
+                Sounds.playBackgroundSound();
                 var opponent = "";
                 var name = App.getName();
                 self.name = name;

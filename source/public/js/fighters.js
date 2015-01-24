@@ -64,6 +64,7 @@
                 this.walkToCenter();
                 this.first = false;
             } else {
+                Sounds.playKickSound();
                 mk.game._moveFighter(mk.game.fighters[0], _.sample(this.moves).toLowerCase().replace(/_/g, "-"));
             }
         },
