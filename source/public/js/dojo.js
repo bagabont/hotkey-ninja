@@ -95,14 +95,15 @@
                 }
                 $(".login").hide();
                 $(".invite").hide();
+                $(".loading").show();
                 $(".bar .player__info").show();
                 $(".player__img").show();
                 $(".player_1 .player__name").text(name);
                 $(".player_2 .player__name").text(opponent);
-                Fight.init(mode);
-                setTimeout(function () {
+                Fight.init(mode, function () {
+                    $(".loading").hide();
                     self.showQuestion();
-                }, 3000);
+                });
             });
 
             socket.on('query', function (data) {
@@ -154,7 +155,9 @@
                 self.socket.emit('join', self.getData());
                 return false;
             });
-
+            $(".btn-restart").on("click", function() {
+                location.reload();
+            });
         },
         getData: function () {
             var name = "userName";
@@ -170,6 +173,9 @@
         },
         showQuestion: function () {
             var self = this;
+            if (App.gameOver) {
+                return;
+            }
             var question = self.questions.pop();
             var $holder = $(".questions");
             $holder.empty();

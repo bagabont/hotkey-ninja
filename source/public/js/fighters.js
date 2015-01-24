@@ -1,6 +1,6 @@
 (function () {
     Fight = {
-        init: function (mode) {
+        init: function (mode, callback) {
             var self = this;
             var fighters = [{name: 'subzero'}, {name: 'kano'}];
             if (mode === 1) {
@@ -22,12 +22,24 @@
                         } else {
                             self.setLife($('.player_2'), o.getLife());
                         }
+                    },
+                    "game-end": function (f) {
+                        App.gameOver = true;
+                        $(".bar, .questions").hide();
+                        if(f.getName() == fighters[1].name) {
+                            $(".victory").show();
+                            console.log("You win!");
+                        } else {
+                            $(".lost").show();
+                            console.log("looser");
+                        }
                     }
 
                 },
                 gameType: 'basic'
             };
             mk.start(options).ready(function () {
+                if(callback) callback();
             });
         },
 

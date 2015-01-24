@@ -52,5 +52,22 @@ block main-content
                                     input.user-name.form-control(type='text', placeholder='Username')
                                     span.input-group-btn
                                         input.btn.btn-default(type='submit' value="Start")
+        .victory(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox.text-center
+                        h1.createdbox__title.text-center Flawless victory!
+                        button.btn-default.btn-lg.btn-block.createdbox__button.btn-restart(href="#") Restart
+        .loading(style="display: none")
+            .loading__title Loading...
+            
+                        
+        .lost(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox.text-center
+                        h1.createdbox__title.text-center You lost the fightI
+                        button.btn-default.btn-lg.btn-block.createdbox__button.btn-restart(href="#") Restart
+                                
                                 
     #arena

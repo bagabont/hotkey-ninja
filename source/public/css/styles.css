@@ -24,7 +24,9 @@ canvas {
 }
 
 .createbox {
-    margin-top: 200px;
+    position: absolute;
+    top: 200px;
+    width: 100%;
     padding: 20px 40px 40px;
     background-color: rgba(40, 40, 40, 0.5);
 }
@@ -186,4 +188,19 @@ canvas {
     to {
         box-shadow: 0 0 40px 10px rgba(240, 20, 20, 0.5);
     }
+}
+
+.loading {
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0
+}
+.loading__title {
+    font-size: 24px;
+    color: #FFF;
+    text-align: center;
+    margin-top: 350px;
 }

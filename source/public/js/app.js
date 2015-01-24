@@ -22,7 +22,8 @@ var App = {
     },
     isIntiator: false,
     isChannelReady: false,
-    socket: io.connect('/socket')
+    socket: io.connect('/socket'),
+    gameOver: false
 };
 
 $(App.init.bind(App));

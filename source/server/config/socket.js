@@ -1,4 +1,5 @@
 var Application = require('../models/application');
+var _ = require("lodash");
 
 module.exports = function (server) {
     var io = require('socket.io')(server);
@@ -64,8 +65,6 @@ module.exports = function (server) {
 
             // Add the client to the room
             socket.join(data.id);
-            console.log('=======================');
-            console.log(clients.length);
             if (clients.length == 1) {
                 socket.broadcast.emit('jointed', data.id);
                 var users = [];
@@ -74,10 +73,7 @@ module.exports = function (server) {
 
                 // get application name
                 var appName = data.id.split('/')[0];
-                console.log("app name");
-                console.log(appName);
                 Application.findOne({name: appName}, function (err, model) {
-                    console.log("find");
 
                     if (err) {
                         throw err;
@@ -128,7 +124,7 @@ module.exports = function (server) {
             }
 
             var progress = this.progress;
-            if (progress < shortcuts.length - 1) {
+            if (progress < shortcuts.length) {
                 // check answer
                 var expected = shortcuts[progress].combination;
                 var isCorrect = (data.answer === expected);
@@ -146,12 +142,13 @@ module.exports = function (server) {
                     answer: expected
                 });
 
-                var next = progress + 1;
+                var next = _.random(0, shortcuts.length - 1);
 
                 // increment progress
                 socket.progress = next;
 
                 // send next query
+                console.log(shortcuts[next].action);
                 socket.emit('query', {
                     query: shortcuts[next].action
                 });
@@ -198,7 +195,6 @@ module.exports = function (server) {
             ns = io.of(namespace || "/"); // the default namespace is "/"
         if (ns) {
             for (var id in ns.connected) {
-                console.log(id);
                 if (roomId) {
                     var index = ns.connected[id].rooms.indexOf(roomId);
                     if (index !== -1) {
