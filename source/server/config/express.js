@@ -54,6 +54,7 @@ module.exports = function (config, app, passport) {
     // })
 
     app.use('/', require('../routes/dojo')());
+    app.use('/', require('../routes/admin')(passport));
     app.get('/', function (req, res, next) {
         res.render('index');
         res.end(JSON.stringify(req.body, null, 2));

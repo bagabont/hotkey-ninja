@@ -1,0 +1,9 @@
+doctype
+html
+    head
+        title #{title}
+    body
+        ul
+            each app in applications
+                li
+                    a(href="/admin/edit/" + app.id) #{app.name}

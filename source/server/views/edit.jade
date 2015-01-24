@@ -1,0 +1,21 @@
+doctype
+html
+    head
+        title #{title}
+    body
+        table
+            caption #{application.name}
+            thead
+                td Actions
+                td Shortcuts
+            tbody
+                each shortcut in application.shortcuts
+                    tr
+                        td
+                            input(type="text", value=shortcut.action)
+                        td
+                            input(type="text", value=shortcut.combination)
+                        td
+                            input(type="button", value="update")
+                            input(type="button", value="remove")
+        input(type="button" value="add")
