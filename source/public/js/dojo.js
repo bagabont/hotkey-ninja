@@ -14,12 +14,19 @@
                 "Meta": "ctrl"
             };
             k.down("any", function (e) {
+                console.log(e);
                 events.push(e);
             });
             k.up("any", function (e) {
                 if (events.length > 0) {
                     var combination = _.map(events, function (event) {
                         keyName = event.key;
+                        //keyName = String.fromCharCode(event.which);
+                        //if (!_.isString(keyName)) {
+                            //keyName = event.key || event.keyIdentifier;
+                        //}
+                        //console.log(_.isString(keyName));
+                        //console.log(keyName);
                         if(_.contains(_.keys(nameMap), keyName)) {
                             keyName = nameMap[keyName];
                         }
@@ -27,6 +34,8 @@
                     });
 
                     // Submit answer
+
+                    console.log(combination.join("+"));
                     socket.emit('answer', {
                         answer: combination.join("+"),
                         user: self.name
@@ -107,22 +116,28 @@
 
             socket.on('leave', function (data) {
                 console.log(data.user + ' left.');
+                location.reload();
             });
 
             socket.on('progress', function (data) {
-                if (data.user === self.name && data.isCorrect) {
-                    Fight.kick();
-                    self.$question.addClass("success");
-                    setTimeout(function() {
-                        self.showQuestion();
-                    }, 200);
-                } else {
+                if (data.user === self.name) {
+                    if (data.isCorrect) {
+                        Fight.kick();
+                        self.$question.addClass("success");
+                        setTimeout(function() {
+                            self.showQuestion();
+                        }, 200);
+                    } else {
+                        self.$question.addClass("fail");
+                        self.$question.find(".question__title").text(data.answer.replace("+", " + "));
+                        setTimeout(function() {
+                            self.showQuestion();
+                        }, 500);
+                    }
+                }
+
+                if (data.user !== self.name && data.isCorrect){
                     Fight.opponentKick();
-                    self.$question.addClass("fail");
-                    self.$question.find(".question__title").text(data.answer);
-                    setTimeout(function() {
-                        self.showQuestion();
-                    }, 500);
                 }
             });
 
@@ -152,6 +167,7 @@
         },
         addQuestion: function(question) {
             this.questions.push(question);
+            console.log(this.questions);
         },
         showQuestion: function () {
             var self = this;

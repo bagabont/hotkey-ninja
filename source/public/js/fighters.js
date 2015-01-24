@@ -57,15 +57,19 @@
             }
         },
         opponentKick: function() {
-            mk.game._moveFighter(mk.game.fighters[1], _.sample(this.moves).toLowerCase().replace(/_/g, "-"));
+            if (this.first) {
+                this.walkToCenter();
+                this.first = false;
+            } else {
+                mk.game._moveFighter(mk.game.fighters[1], _.sample(this.moves).toLowerCase().replace(/_/g, "-"));
+            }
         },
 
         moves: [
             "HIGH_KICK",
             "LOW_KICK",
             "HIGH_PUNCH",
-            "SQUAT_LOW_KICK",
-            "SQUAT_HIGH_KICK",
+            "LOW_PUNCH",
         ]
     };
 })();
