@@ -1,5 +1,6 @@
 var express = require('express'),
     User = require('../models/user'),
+    multer = require('multer'),
     bodyParser = require('body-parser');
 
 module.exports = function (config, app, passport) {
@@ -40,6 +41,9 @@ module.exports = function (config, app, passport) {
 
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(bodyParser.json());
+
+    // configure file uploader
+    app.use(multer({inMemory: true}));
 
     // app.use(express.json());       // to support JSON-encoded bodies
     // app.use(express.urlencoded());

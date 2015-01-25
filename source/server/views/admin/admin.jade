@@ -17,4 +17,8 @@ html
                                         a(href="/admin/edit/" + app.id) #{app.name}
                                     td.col-sm-1
                                         input(type="button", value="Remove").btn.btn-danger
+
                         input(type="button" value="Create new application").btn.btn-info.pull-right
+
+                        form(action="/admin/upload/" method="POST" enctype="multipart/form-data").form-inline
+                            input(name="app_shortcuts" onchange="javascript:this.form.submit();" type="file").form-control

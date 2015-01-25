@@ -24,6 +24,17 @@ module.exports = function (passport) {
             });
         });
 
+    router.route('/create')
+        .all(passport.authenticate('basic', {session: false}))
+        .post(function (req, res, next) {
+            Application.create(req.body, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(201).send();
+            });
+        });
+
     router.param('id', function (req, res, next, id) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).send();
@@ -65,17 +76,6 @@ module.exports = function (passport) {
             });
         }
     );
-
-    router.route('/create')
-        .all(passport.authenticate('basic', {session: false}))
-        .post(function (req, res, next) {
-            Application.create(req.body, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                res.status(201).send();
-            });
-        });
 
     return router;
 };
