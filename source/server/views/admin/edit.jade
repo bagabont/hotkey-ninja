@@ -3,26 +3,30 @@ html
     head
         title #{title}
         link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
+        script(type="text/javascript" src="/js/knockout/dist/knockout.js")
+        script(type="text/javascript" src="/js/lodash/dist/lodash.js")
+        script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
+        script(src="/js/admin.js")
     body
         .container
             .row
                 .col-md-8
-                    form.panel-body(action="/driver/jobs/#{job.id}/book" method="POST" name=mechanic.id)
-                        table.table.table-bordered.table-hover
+                    form.panel-body
+                        table.table.table-bordered.table-hover.table_application(data-application=application)
                             caption
                                 input(type="text", value=application.name).form-control.input-lg
                             thead
                                 td Actions
                                 td Shortcuts
                                 td Edit
-                            tbody
-                                each shortcut in application.shortcuts
-                                    tr
-                                        td.col-md-4
-                                            input(type="text", name= shortcut.action ,value=shortcut.action).form-control
-                                        td.col-md-3
-                                            input(type="text", name= shortcut.combination ,value=shortcut.combination).form-control
-                                        td.col-sm-1
-                                            input(type="button", value="Remove").btn.btn-danger
+                            tbody(data-bind="foreach: shortcuts")
+                                tr
+                                    td.col-md-4
+                                        input(type="text", data-bind="value: action").form-control
+                                    td.col-md-3
+                                        input(type="text", data-bind="value: combination").form-control
+                                    td.col-sm-1
+                                        input(type="button", value="Remove" data-bind="click: remove").btn.btn-danger
+                                        //- input(type="button", value="Remove" data-bind="click: update").btn.btn-danger
                         input(type="button" value="Add new shortcut").btn.btn-info.pull-left
                         input(type="button" value="Save application").btn.btn-success.pull-right
