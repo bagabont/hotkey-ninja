@@ -7,7 +7,7 @@ html
         .container
             .row
                 .col-md-8
-                    .panel-body
+                    form.panel-body(action="/driver/jobs/#{job.id}/book" method="POST" name=mechanic.id)
                         table.table.table-bordered.table-hover
                             caption
                                 input(type="text", value=application.name).form-control.input-lg
@@ -19,9 +19,9 @@ html
                                 each shortcut in application.shortcuts
                                     tr
                                         td.col-md-4
-                                            input(type="text", value=shortcut.action).form-control
+                                            input(type="text", name= shortcut.action ,value=shortcut.action).form-control
                                         td.col-md-3
-                                            input(type="text", value=shortcut.combination).form-control
+                                            input(type="text", name= shortcut.combination ,value=shortcut.combination).form-control
                                         td.col-sm-1
                                             input(type="button", value="Remove").btn.btn-danger
                         input(type="button" value="Add new shortcut").btn.btn-info.pull-left
