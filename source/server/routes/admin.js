@@ -1,6 +1,6 @@
 var router = require('express').Router(),
     fs = require('fs'),
-    Application = require('../models/application');
+    Application = require('../models/application').Application;
 
 module.exports = function (passport) {
     router.route('/admin')
