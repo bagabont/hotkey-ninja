@@ -150,6 +150,8 @@
                 console.log(data);
                 console.log('Game is full.');
             });
+            socket.on('gameOver', function (data) {
+            });
             this.initEvents();
         },
 

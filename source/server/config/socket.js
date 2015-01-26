@@ -173,6 +173,11 @@ module.exports = function (server) {
             // leave the room
             socket.leave(socket.room);
         });
+
+        socket.on("win", function () {
+            console.log("win");
+            socket.broadcast.to(socket.room).emit("gameOver");
+        });
     });
 
     function getWinner(roomId) {

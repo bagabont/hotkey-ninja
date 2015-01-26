@@ -16,7 +16,7 @@
                 fighters: fighters,
                 callbacks: {
                     attack: function (f, o, l) {
-                        console.log(o.getName());
+                        console.log(o.getLife());
                         if (o.getName() === fighters[0].name) {
                             self.setLife($('.player_1'), o.getLife());
                         } else {
@@ -44,7 +44,9 @@
         },
 
         setLife: function (container, life) {
-            container.find(".player__health-inner").width(life + "%");
+            var total = mk.config.LIFE;
+            percentage = life * 100 / total;
+            container.find(".player__health-inner").width(percentage.toFixed(0) + "%");
         },
 
         walkToCenter: function() {
@@ -54,10 +56,11 @@
             setTimeout(function() {
                 mk.game._moveFighter(mk.game.fighters[0], "stand");
                 mk.game._moveFighter(mk.game.fighters[1], "stand");
-            }, 800);
+            }, 1000);
         },
 
         first: true,
+        isWinner: false,
 
         kick: function () {
             if (this.first) {
@@ -75,6 +78,10 @@
             } else {
                 mk.game._moveFighter(mk.game.fighters[1], _.sample(this.moves).toLowerCase().replace(/_/g, "-"));
             }
+        },
+
+        gameOver: function() {
+
         },
 
         moves: [

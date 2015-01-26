@@ -99,18 +99,6 @@ Application.create({
             "action": "Move Current Line Up"
         },
         {
-            "combination": "ctrl+alt+f",
-            "action": "Collapse the Current Level"
-        },
-        {
-            "combination": "ctrl+shift+down",
-            "action": "Move Current Line Down"
-        },
-        {
-            "combination": "ctrl+del",
-            "action": "Delete to end of word"
-        },
-        {
             "combination": "ctrl+a",
             "action": "Select all"
         },

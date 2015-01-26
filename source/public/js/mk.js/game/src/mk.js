@@ -13,7 +13,8 @@
     FIGHTERS     : 'fighters/',
     STEP_DURATION: 80,
     PLAYER_TOP   : $(window).height() - 290,
-    BLOCK_DAMAGE : 0.2
+    BLOCK_DAMAGE : 0.2,
+    LIFE: 50
   };
 
   mk.controllers = {};
@@ -1283,7 +1284,7 @@
       options.owner,
       options.type,
       options.duration || 40);
-    this._damage = options.damage;
+    this._damage = 8// options.damage;
     this._totalSteps = options.steps;
     this._moveBack = false;
     this._hitPassed = false;
@@ -1582,7 +1583,7 @@
     this._name = name;
     this._arena = options.arena;
     this._game = options.game;
-    this._life = 50;
+    this._life = mk.config.LIFE;
     this._orientation = options.orientation;
     this._width = 60;
     this._height = 120;
