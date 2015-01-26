@@ -24,7 +24,7 @@ block main-content
                         h1.player__name.text-right Player 2
                     .col-xs-4.player__img(style='display: none')
                         img.remoteImg.img-responsive(src="/img/default_avatar.jpg")
-                        video#remoteVideo.img-responsive(autoplay='')                          
+                        video#remoteVideo.img-responsive(autoplay='')
 
     .questions
     .question(style="display: none")
@@ -41,7 +41,7 @@ block main-content
                         h2 Waiting for another player
                             h5 Invite a friend by sending them this URL
                             .link
-                                input.app-link.input-lg.form-control(type="text" value=appLink)
+                                input.app-link.input-lg.form-control(type="text" value="http://" + appLink)
         .login(style="display: none")
             .row
                 .col-xs-6.col-xs-offset-3
@@ -60,14 +60,14 @@ block main-content
                         button.btn-default.btn-lg.btn-block.createdbox__button.btn-restart(href="#") Restart
         .loading(style="display: none")
             .loading__title Loading...
-            
-                        
+
+
         .lost(style="display: none")
             .row
                 .col-xs-6.col-xs-offset-3
                     .createbox.text-center
                         h1.createdbox__title.text-center You lost the fightI
                         button.btn-default.btn-lg.btn-block.createdbox__button.btn-restart(href="#") Restart
-                                
-                                
+
+
     #arena
