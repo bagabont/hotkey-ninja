@@ -50,7 +50,7 @@ module.exports = function (config, app, passport) {
 
     // setup routers
     app.use('/api/v1/applications', require('../routes/applications')(passport));
-
+    
     // app.use(function (req, res, next) {
     // res.setHeader('Content-Type', 'text/plain')
     // res.end(JSON.stringify(req.body, null, 2))

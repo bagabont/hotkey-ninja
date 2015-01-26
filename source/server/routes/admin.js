@@ -52,7 +52,7 @@ module.exports = function (passport) {
                 var data = JSON.parse(req.files.app_shortcuts.buffer);
                 Application.create(data, function (err, data) {
                     if (err) {
-                        res.status(500).send(err);
+                        return res.status(500).send(err);
                     }
                     res.redirect('back')
                 });

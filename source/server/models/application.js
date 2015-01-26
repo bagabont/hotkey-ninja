@@ -13,5 +13,9 @@ var ApplicationSchema = new Schema({
 });
 
 Application = mongoose.model('applications', ApplicationSchema);
+Shortcut = mongoose.model('shortcuts', ShortcutSchema);
 
-module.exports = Application;
+module.exports = {
+    Application: Application,
+    Shortcut: Shortcut
+};
