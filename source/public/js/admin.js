@@ -27,8 +27,8 @@
         removeRow: function() {
             console.log(this);
             var self = this;
-            var url = "/api/v1/applications/delete/"
-            $.get(url, function( data ) {
+            var url = "/api/v1/applications/delete/" + this.id
+            $.post(url, function( data ) {
                 console.log(data);
             });
         }

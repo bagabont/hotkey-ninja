@@ -1,4 +1,5 @@
 var router = require('express').Router(),
+    fs = require('fs'),
     Application = require('../models/application');
 
 module.exports = function (passport) {
@@ -42,6 +43,23 @@ module.exports = function (passport) {
                     application: app
                 });
             });
+        });
+
+    router.route('/admin/upload')
+        .all(passport.authenticate('basic', {session: false}))
+        .post(function (req, res, next) {
+            try {
+                var data = JSON.parse(req.files.app_shortcuts.buffer);
+                Application.create(data, function (err, data) {
+                    if (err) {
+                        res.status(500).send(err);
+                    }
+                    res.redirect('back')
+                });
+            }
+            catch (ex) {
+                res.status(400).send(ex);
+            }
         });
     return router;
 };
