@@ -93,7 +93,6 @@ module.exports = function (passport) {
                     }
                     return res.redirect("/admin");
                 });
-                // next();
             });
         }
     );

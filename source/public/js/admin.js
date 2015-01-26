@@ -28,7 +28,7 @@
             var url = "/api/v1/applications/" + application.id;
             var onlyShortcuts = self.getRawShortcuts(EditableTable.shortcuts());
             $.post(url, {onlyShortcuts: onlyShortcuts}, function(){
-                
+                $(".alert-success").show();
             });
         },
         removeRow: function() {

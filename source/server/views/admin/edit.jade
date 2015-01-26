@@ -3,6 +3,7 @@ html
     head
         title #{title}
         link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" href="/css/admin.css")
         script(type="text/javascript" src="/js/knockout/dist/knockout.js")
         script(type="text/javascript" src="/js/lodash/dist/lodash.js")
         script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
@@ -28,5 +29,10 @@ html
                                     td.col-sm-1
                                         input(type="button", value="Remove" data-bind="click: removeRow").btn.btn-danger
                                         //- input(type="button", value="Remove" data-bind="click: update").btn.btn-danger
-                        input(type="button" value="Add new shortcut" data-bind="click: addRow").btn.btn-info.pull-left
-                        input(value="Save application" data-bind="click: updateApp").btn.btn-success.pull-right
+                        .row
+                            .col-sm-3 
+                                input(type="button" value="Add new shortcut" data-bind="click: addRow").btn.btn-info.btn-block.pull-left
+                            .col-sm-6
+                                .alert.alert-success(style='display: none') Shortcuts have been updated
+                            .col-sm-3
+                                input(value="Save application" data-bind="click: updateApp").btn.btn-success.btn-block.pull-right
