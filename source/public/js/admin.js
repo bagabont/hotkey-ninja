@@ -30,13 +30,6 @@
             $.post(url, {onlyShortcuts: onlyShortcuts}, function(){
                 
             });
-            // $.ajax({
-            //     url: url,
-            //     type: "POST",
-            //     dataType: "json",
-            //     data: {onlyShortcuts: onlyShortcuts},
-
-            //   });
         },
         removeRow: function() {
             EditableTable.shortcuts.remove(this);

@@ -16,7 +16,8 @@ html
                                     td.col-md-8
                                         a(href="/admin/edit/" + app.id) #{app.name}
                                     td.col-sm-1
-                                        input(type="button", value="Remove").btn.btn-danger
+                                        form(method="POST" action="/api/v1/applications/delete/" + app.id)
+                                            input(type="submit", value="Remove").btn.btn-danger
 
                         input(type="button" value="Create new application").btn.btn-info.pull-right
 

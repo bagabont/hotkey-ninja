@@ -79,18 +79,22 @@ module.exports = function (passport) {
 
     router.route('/delete/:id')
         .post(passport.authenticate('basic', {session: false}), function (req, res, next) {
-            var app = req.app;
-            if (!app) {
-                return res.status(404).send();
-            }
-            console.log(app.shortcuts);
-            return res.status(200).send();
-            // Application.remove(req.app, function (err) {
-            //     if (err) {
-            //         return next(err);
-            //     }
-            //     return res.status(200).send();
-            // });
+            console.log('looooool');
+            var query = {
+                _id: req.param("id")
+            };
+            Application.findOne(query, function (err, model) {
+                if (err) {
+                    return next(err)
+                }
+                Application.remove(model, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    return res.redirect("/admin");
+                });
+                // next();
+            });
         }
     );
 
