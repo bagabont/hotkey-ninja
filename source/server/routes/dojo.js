@@ -1,11 +1,11 @@
 var router = require('express').Router();
 
 module.exports = function () {
-    router.route('/dojo/:app/create')
+    router.route('/dojo/create')
         .post(function (req, res, next) {
             // Generate unique id for the room
             var id = Math.round((Math.random() * 1000000));
-            var app = req.params.app;
+            var app = req.body.application;
 
             // Redirect to the room
             res.redirect('/dojo/' + app + '/' + id);

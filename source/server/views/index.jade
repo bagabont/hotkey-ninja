@@ -5,13 +5,18 @@ block main-content
             .col-xs-6.col-xs-offset-3
                 .createbox
                     h1.createdbox__title.text-center HOT KEY NINJA
-                    form.form_create.form_get-name(name="create", action="/dojo/notepad++/create", method="post")
+                    form.form_create.form_get-name(name="create", action="/dojo/create", method="post")
+                        hr
+                        .form-group
+                            .radio
+                                label
+                                    input(type="radio" name="application" value="notepad++" checked="checked")
+                                    | Notepad++
+                        .form-group
+                            .radio
+                                label
+                                    input(type="radio" name="application" value="ms-word")
+                                    | MS Word
                         .form-group
                             input.form-control.input-lg.user-name(type="text" placeholder="Player name")
-                        .form-group
-                            .input-group.input-group-lg
-                                input.form-control(type="text" placeholder="Enter room number" name="room" value="")
-                                span.input-group-btn
-                                    a.btn.btn-default() Join Game
-                        hr
                         button.btn-default.btn-lg.btn-block.createdbox__button(type="submit") Create Game
