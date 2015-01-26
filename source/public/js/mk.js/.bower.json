@@ -1,0 +1,14 @@
+{
+  "name": "mk.js",
+  "homepage": "https://github.com/mgechev/mk.js",
+  "_release": "6ce366617c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "6ce366617cd8e74eb9917f7186ff0213c40114e0"
+  },
+  "_source": "git://github.com/mgechev/mk.js.git",
+  "_target": "*",
+  "_originalSource": "mk.js",
+  "_direct": true
+}

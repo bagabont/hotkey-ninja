@@ -1,0 +1,31 @@
+{
+  "name": "hotkey-ninja",
+  "version": "0.0.1",
+  "homepage": "https://github.com/bagabont/hotkey-ninja",
+  "authors": [
+    "Momchil Marinov <momchil.marinov@rwth-aachen.de>"
+  ],
+  "description": "Hotkey Ninja",
+  "keywords": [
+    "hotkey",
+    "ninja"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./source/public/js",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.3.1",
+    "mk.js": "*",
+    "lodash": "~2.4.1",
+    "kibo": "~1.1.0",
+    "knockout": "~3.2.0"
+  }
+}

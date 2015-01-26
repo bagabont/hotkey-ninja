@@ -1,0 +1,38 @@
+doctype
+html
+    head
+        title #{title}
+        link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" href="/css/admin.css")
+        script(type="text/javascript" src="/js/knockout/dist/knockout.js")
+        script(type="text/javascript" src="/js/lodash/dist/lodash.js")
+        script(type="text/javascript" src="/js/jquery/dist/jquery.min.js")
+        script(src="/js/admin.js")
+    body
+        .container
+            .row
+                .col-md-8
+                    form.panel-body
+                        table.table.table-bordered.table-hover.table_application(data-application=application)
+                            caption
+                                input(type="text", value=application.name).form-control.input-lg
+                            thead
+                                td Actions
+                                td Shortcuts
+                                td Edit
+                            tbody(data-bind="foreach: shortcuts")
+                                tr
+                                    td.col-md-4
+                                        input(type="text", name="action" data-bind="value: action").form-control
+                                    td.col-md-3
+                                        input(type="text", name="combination" data-bind="value: combination").form-control
+                                    td.col-sm-1
+                                        input(type="button", value="Remove" data-bind="click: removeRow").btn.btn-danger
+                                        //- input(type="button", value="Remove" data-bind="click: update").btn.btn-danger
+                        .row
+                            .col-sm-3 
+                                input(type="button" value="Add new shortcut" data-bind="click: addRow").btn.btn-info.btn-block.pull-left
+                            .col-sm-6
+                                .alert.alert-success(style='display: none') Shortcuts have been updated
+                            .col-sm-3
+                                input(value="Save application" data-bind="click: updateApp").btn.btn-success.btn-block.pull-right

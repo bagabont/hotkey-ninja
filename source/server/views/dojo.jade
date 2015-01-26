@@ -1,0 +1,73 @@
+extends includes/layout
+block js
+    script(type="text/javascript" src="/js/webrtc.js")
+    script(type="text/javascript" src="/js/dojo.js")
+block main-content
+    .bar
+        .row
+            .col-xs-5
+                .row.player.player_1
+                    .col-xs-4.player__img(style='display: none')
+                        img.localImg.img-responsive(src="/img/default_avatar.jpg")
+                        video#localVideo.img-responsive(autoplay muted)
+                    .col-xs-8.player__info(style='display: none')
+                        .player__health
+                            .player__health-inner
+                        h1.player__name Palyer 1
+            .col-xs-2
+                h1.page__title.text-center Notepad++ fight
+            .col-xs-5
+                .row.player.player_2
+                    .col-xs-8.player__info(style='display: none')
+                        .player__health
+                            .player__health-inner
+                        h1.player__name.text-right Player 2
+                    .col-xs-4.player__img(style='display: none')
+                        img.remoteImg.img-responsive(src="/img/default_avatar.jpg")
+                        video#remoteVideo.img-responsive(autoplay='')
+
+    .questions
+    .question(style="display: none")
+        .question__progress
+        .question__inner
+            .question__inner-cell
+                h2.question__title Error
+
+    .container
+        .invite(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox
+                        h2 Waiting for another player
+                            h5 Invite a friend by sending them this URL
+                            .link
+                                input.app-link.input-lg.form-control(type="text" value="http://" + appLink)
+        .login(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox
+                        .createdbox__title.text-center Enter username
+                            .createbox__input
+                                form.input-group.input-group-lg
+                                    input.user-name.form-control(type='text', placeholder='Username')
+                                    span.input-group-btn
+                                        input.btn.btn-default(type='submit' value="Start")
+        .victory(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox.text-center
+                        h1.createdbox__title.text-center Flawless victory!
+                        button.btn-default.btn-lg.btn-block.createdbox__button.btn-restart(href="#") Restart
+        .loading(style="display: none")
+            .loading__title Loading...
+
+
+        .lost(style="display: none")
+            .row
+                .col-xs-6.col-xs-offset-3
+                    .createbox.text-center
+                        h1.createdbox__title.text-center You lost the fightI
+                        button.btn-default.btn-lg.btn-block.createdbox__button.btn-restart(href="#") Restart
+
+
+    #arena

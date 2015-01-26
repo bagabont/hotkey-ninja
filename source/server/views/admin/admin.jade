@@ -1,0 +1,25 @@
+doctype
+html
+    head
+        title #{title}
+        link(rel="stylesheet" href="/js/bootstrap/dist/css/bootstrap.css")
+    body
+        .container
+            .row
+                .col-md-8
+                    .panel-body
+                        table.table.table-bordered.table-hover
+                            caption Applications
+                            tbody
+                            each app in applications
+                                tr
+                                    td.col-md-8
+                                        a(href="/admin/edit/" + app.id) #{app.name}
+                                    td.col-sm-1
+                                        form(method="POST" action="/api/v1/applications/delete/" + app.id)
+                                            input(type="submit", value="Remove").btn.btn-danger
+
+                        input(type="button" value="Create new application").btn.btn-info.pull-right
+
+                        form(action="/admin/upload/" method="POST" enctype="multipart/form-data").form-inline
+                            input(name="app_shortcuts" onchange="javascript:this.form.submit();" type="file").form-control
