@@ -64,19 +64,18 @@ module.exports = function (passport) {
                 shortcuts: app.shortcuts
             });
         })
-        .delete(passport.authenticate('basic', {session: false}), function (req, res, next) {
+        .post(passport.authenticate('basic', {session: false}), function (req, res, next) {
+            var shortcuts = req.body.onlyShortcuts;
             var app = req.app;
             if (!app) {
                 return res.status(404).send();
             }
-            Application.remove(req.app, function (err) {
-                if (err) {
-                    return next(err);
-                }
-                return res.status(200).send();
+            app.shortcuts = shortcuts;
+            app.save(function (err) {
+                if (err) console.log(err);
+                res.send(app);
             });
-        }
-    );
+        });
 
     router.route('/delete/:id')
         .post(passport.authenticate('basic', {session: false}), function (req, res, next) {

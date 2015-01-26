@@ -22,11 +22,11 @@ html
                             tbody(data-bind="foreach: shortcuts")
                                 tr
                                     td.col-md-4
-                                        input(type="text", data-bind="value: action").form-control
+                                        input(type="text", name="action" data-bind="value: action").form-control
                                     td.col-md-3
-                                        input(type="text", data-bind="value: combination").form-control
+                                        input(type="text", name="combination" data-bind="value: combination").form-control
                                     td.col-sm-1
-                                        input(type="button", value="Remove" data-bind="click: remove").btn.btn-danger
+                                        input(type="button", value="Remove" data-bind="click: removeRow").btn.btn-danger
                                         //- input(type="button", value="Remove" data-bind="click: update").btn.btn-danger
-                        input(type="button" value="Add new shortcut").btn.btn-info.pull-left
-                        input(type="button" value="Save application").btn.btn-success.pull-right
+                        input(type="button" value="Add new shortcut" data-bind="click: addRow").btn.btn-info.pull-left
+                        input(value="Save application" data-bind="click: updateApp").btn.btn-success.pull-right
