@@ -48,7 +48,6 @@ module.exports = function (server) {
         // When client emits 'join', save his name,
         // and add him to the room
         socket.on('join', function (data) {
-            console.log("join");
             // find game room
             var clients = findClientsSocket(data.id, '/socket');
 
@@ -148,7 +147,6 @@ module.exports = function (server) {
                 socket.progress = next;
 
                 // send next query
-                console.log(shortcuts[next].action);
                 socket.emit('query', {
                     query: shortcuts[next].action
                 });

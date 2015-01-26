@@ -16,7 +16,6 @@
                 fighters: fighters,
                 callbacks: {
                     attack: function (f, o, l) {
-                        console.log(o.getLife());
                         if (o.getName() === fighters[0].name) {
                             self.setLife($('.player_1'), o.getLife());
                         } else {
@@ -28,10 +27,10 @@
                         $(".bar, .questions").hide();
                         if(f.getName() == fighters[1].name) {
                             $(".victory").show();
-                            console.log("You win!");
+                            App.socket.emit("win");
+                            self.isWinner = true;
                         } else {
                             $(".lost").show();
-                            console.log("looser");
                         }
                     }
 
@@ -50,7 +49,6 @@
         },
 
         walkToCenter: function() {
-            console.log("once");
             mk.game._moveFighter(mk.game.fighters[0], "walking");
             mk.game._moveFighter(mk.game.fighters[1], "walking-backward");
             setTimeout(function() {
@@ -80,8 +78,11 @@
             }
         },
 
-        gameOver: function() {
-
+        forceEndGame: function() {
+            var i = this.isWinner? 1 : 0;
+            mk.game.fighterDead(mk.game.fighters[i]);
+            mk.game._moveFighter(mk.game.fighters[i], "fall");
+            mk.game.fighters[i].setLife(0);
         },
 
         moves: [

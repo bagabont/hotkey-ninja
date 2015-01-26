@@ -13,10 +13,6 @@
                 "Shift": "shift",
                 "Meta": "ctrl"
             };
-            k.down("any", function (e) {
-                console.log(e);
-                events.push(e);
-            });
             k.up("any", function (e) {
                 if (events.length > 0) {
                     var combination = _.map(events, function (event) {
@@ -39,7 +35,6 @@
 
                     // Submit answer
 
-                    console.log(combination.join("+"));
                     socket.emit('answer', {
                         answer: combination.join("+"),
                         user: self.name
@@ -55,13 +50,11 @@
             this.socket = socket;
             // on connection to server get the id of person's room
             socket.on('connect', function () {
-                console.log("connect");
                 socket.emit('load', self.getData().id);
             });
 
             // receive the names of all people in the game room
             socket.on('loaded', function (data) {
-                console.log("loaded");
                 if (data.players === 0) {
                     App.isInitiator = true;
                     $(".invite").show();
@@ -71,7 +64,6 @@
                     App.isChannelReady = true;
                     $(".login").show();
                 }
-                console.log(data.players);
             });
 
             socket.on('jointed', function (room) {
@@ -109,10 +101,15 @@
                     $(".loading").hide();
                     self.showQuestion();
                 });
+                k.down("any", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    events.push(e);
+                    return false;
+                });
             });
 
             socket.on('query', function (data) {
-                console.log(data);
                 self.addQuestion(data.query);
             });
 
@@ -147,10 +144,10 @@
             });
 
             socket.on('full', function (data) {
-                console.log(data);
                 console.log('Game is full.');
             });
             socket.on('gameOver', function (data) {
+                Fight.forceEndGame();
             });
             this.initEvents();
         },
@@ -176,7 +173,6 @@
         },
         addQuestion: function(question) {
             this.questions.push(question);
-            console.log(this.questions);
         },
         showQuestion: function () {
             var self = this;

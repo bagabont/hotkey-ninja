@@ -13,7 +13,7 @@ module.exports = function (config, app, passport) {
                 throw err;
             }
             if (user) {
-                return
+                return;
             }
 
             user = new User({
