@@ -1,6 +1,7 @@
 var router = require('express').Router(),
     mongoose = require('mongoose'),
-    Application = require('../models/application');
+    Application = require('../models/application'),
+    fs = require('fs');;
 
 module.exports = function (passport) {
 
@@ -21,6 +22,17 @@ module.exports = function (passport) {
                     applications.push(app);
                 }
                 res.send(applications);
+            });
+        });
+
+    router.route('/create')
+        .all(passport.authenticate('basic', {session: false}))
+        .post(function (req, res, next) {
+            Application.create(req.body, function (err) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(201).send();
             });
         });
 
@@ -52,16 +64,35 @@ module.exports = function (passport) {
                 shortcuts: app.shortcuts
             });
         })
-        .delete(passport.authenticate('basic', {session: false}), function (req, res, next) {
+        .post(passport.authenticate('basic', {session: false}), function (req, res, next) {
+            var shortcuts = req.body.onlyShortcuts;
             var app = req.app;
             if (!app) {
                 return res.status(404).send();
             }
-            Application.remove(req.app, function (err) {
+            app.shortcuts = shortcuts;
+            app.save(function (err) {
+                if (err) console.log(err);
+                res.send(app);
+            });
+        });
+
+    router.route('/delete/:id')
+        .post(passport.authenticate('basic', {session: false}), function (req, res, next) {
+            console.log('looooool');
+            var query = {
+                _id: req.param("id")
+            };
+            Application.findOne(query, function (err, model) {
                 if (err) {
-                    return next(err);
+                    return next(err)
                 }
-                return res.status(200).send();
+                Application.remove(model, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    return res.redirect("/admin");
+                });
             });
         }
     );
@@ -69,7 +100,7 @@ module.exports = function (passport) {
     router.route('/create')
         .all(passport.authenticate('basic', {session: false}))
         .post(function (req, res, next) {
-            Application.create(req.body, function (err) {
+            Application.create(obj, function (err) {
                 if (err) {
                     return next(err);
                 }

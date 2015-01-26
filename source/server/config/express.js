@@ -1,5 +1,6 @@
 var express = require('express'),
     User = require('../models/user'),
+    multer = require('multer'),
     bodyParser = require('body-parser');
 
 module.exports = function (config, app, passport) {
@@ -38,8 +39,13 @@ module.exports = function (config, app, passport) {
     // configure public directory
     app.use(express.static(config.rootPath + '/public'));
 
-    app.use(bodyParser.urlencoded({extended: false}));
-    app.use(bodyParser.json());
+    app.use( bodyParser.json() );       // to support JSON-encoded bodies
+    app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+      extended: true
+    })); 
+
+    // configure file uploader
+    app.use(multer({inMemory: true}));
 
     // app.use(express.json());       // to support JSON-encoded bodies
     // app.use(express.urlencoded());
@@ -54,6 +60,7 @@ module.exports = function (config, app, passport) {
     // })
 
     app.use('/', require('../routes/dojo')());
+    app.use('/', require('../routes/admin')(passport));
     app.get('/', function (req, res, next) {
         res.render('index');
         res.end(JSON.stringify(req.body, null, 2));
