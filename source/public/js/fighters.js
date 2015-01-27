@@ -24,7 +24,7 @@
                     },
                     "game-end": function (f) {
                         App.gameOver = true;
-                        $(".bar, .questions").hide();
+                        $(".questions").hide();
                         if(f.getName() == fighters[1].name) {
                             $(".victory").show();
                             App.socket.emit("win");
