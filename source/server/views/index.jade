@@ -10,7 +10,7 @@ block main-content
                         .form-group
                             select.form-control.input-lg(name="selectedApplication")
                                 for item in applications
-                                    option(value=item.id) #{item.name}
+                                    option(value=item.name + '/' + item.id) #{item.name}
                         .form-group
                             input.form-control.input-lg.user-name(type="text" placeholder="Player name")
                         button.btn-default.btn-lg.btn-block.createdbox__button(type="submit") Create Game
