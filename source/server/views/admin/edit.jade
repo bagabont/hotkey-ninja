@@ -15,7 +15,7 @@ html
                     form.panel-body
                         table.table.table-bordered.table-hover.table_application(data-application=application)
                             caption
-                                input(type="text", value=application.name).form-control.input-lg
+                                input(type="text", data-bind="value: name").form-control.input-lg
                             thead
                                 td Actions
                                 td Shortcuts
@@ -30,9 +30,9 @@ html
                                         input(type="button", value="Remove" data-bind="click: removeRow").btn.btn-danger
                                         //- input(type="button", value="Remove" data-bind="click: update").btn.btn-danger
                         .row
-                            .col-sm-3 
+                            .col-sm-3
                                 input(type="button" value="Add new shortcut" data-bind="click: addRow").btn.btn-info.btn-block.pull-left
                             .col-sm-6
                                 .alert.alert-success(style='display: none') Shortcuts have been updated
                             .col-sm-3
-                                input(value="Save application" data-bind="click: updateApp").btn.btn-success.btn-block.pull-right
+                                input(type="button" value="Save application" data-bind="click: updateApp").btn.btn-success.btn-block.pull-right

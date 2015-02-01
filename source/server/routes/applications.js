@@ -1,7 +1,8 @@
 var router = require('express').Router(),
     mongoose = require('mongoose'),
     Application = require('../models/application'),
-    fs = require('fs');;
+    fs = require('fs');
+;
 
 module.exports = function (passport) {
 
@@ -65,14 +66,17 @@ module.exports = function (passport) {
             });
         })
         .post(passport.authenticate('basic', {session: false}), function (req, res, next) {
-            var shortcuts = req.body.onlyShortcuts;
             var app = req.app;
             if (!app) {
                 return res.status(404).send();
             }
-            app.shortcuts = shortcuts;
+            app.name = req.body.name;
+            app.shortcuts = req.body.shortcuts;
+
             app.save(function (err) {
-                if (err) console.log(err);
+                if (err) {
+                    console.log(err);
+                }
                 res.send(app);
             });
         });
