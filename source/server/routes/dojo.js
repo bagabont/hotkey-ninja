@@ -1,11 +1,13 @@
 var router = require('express').Router();
 
 module.exports = function () {
+
     router.route('/dojo/create')
         .post(function (req, res, next) {
             // Generate unique id for the room
             var id = Math.round((Math.random() * 1000000));
-            var app = req.body.application;
+
+            var app = req.body.selectedApplication;
 
             // Redirect to the room
             res.redirect('/dojo/' + app + '/' + id);
@@ -13,13 +15,9 @@ module.exports = function () {
 
     router.route('/dojo/:app/:id')
         .get(function (req, res, next) {
-            user1 = req.query.user1;
-            host = req.headers.host;
-            linkTail = req.url;
-            appLink = host + linkTail;
             res.render("dojo", {
-                userName: user1,
-                appLink: appLink
+                userName: req.query.user1,
+                appLink: req.headers.host + req.url
             });
         });
 

@@ -8,15 +8,9 @@ block main-content
                     form.form_create.form_get-name(name="create", action="/dojo/create", method="post")
                         hr
                         .form-group
-                            .radio
-                                label
-                                    input(type="radio" name="application" value="notepad++" checked="checked")
-                                    | Notepad++
-                        .form-group
-                            .radio
-                                label
-                                    input(type="radio" name="application" value="ms-word")
-                                    | MS Word
+                            select(name="selectedApplication")
+                                for item in applications
+                                    option(value=item.id) #{item.name}
                         .form-group
                             input.form-control.input-lg.user-name(type="text" placeholder="Player name")
                         button.btn-default.btn-lg.btn-block.createdbox__button(type="submit") Create Game

@@ -1,6 +1,7 @@
 var express = require('express'),
     User = require('../models/user'),
     multer = require('multer'),
+    Application = require('../models/application'),
     bodyParser = require('body-parser');
 
 module.exports = function (config, app, passport) {
@@ -61,9 +62,28 @@ module.exports = function (config, app, passport) {
 
     app.use('/', require('../routes/dojo')());
     app.use('/', require('../routes/admin')(passport));
+
     app.get('/', function (req, res, next) {
-        res.render('index');
-        res.end(JSON.stringify(req.body, null, 2));
-        next();
+
+        Application.find({}, function (err, models) {
+            if (err) {
+                return next(err);
+            }
+            var applications = [];
+            for (var i = 0; i < models.length; i++) {
+                var app = {
+                    id: models[i].id,
+                    name: models[i].name,
+                    platform: models[i].platform
+                };
+                applications.push(app);
+            }
+            res.render('index', {
+                title: 'Hotkey Ninja',
+                applications: applications
+            });
+            //res.end(JSON.stringify(req.body, null, 2));
+            //next();
+        });
     });
 };

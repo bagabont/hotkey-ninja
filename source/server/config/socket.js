@@ -71,14 +71,13 @@ module.exports = function (server) {
                 users.push(socket.username);
 
                 // get application name
-                var appName = data.id.split('/')[0];
-                Application.findOne({name: appName}, function (err, model) {
-
+                var id = data.id.split('/')[0];
+                Application.findOne({_id: id}, function (err, model) {
                     if (err) {
                         throw err;
                     }
                     if (!model) {
-                        console.log('Application not found.');
+                        console.log('Application with ID: "' + id + '" not found.');
                         return;
                     }
 
