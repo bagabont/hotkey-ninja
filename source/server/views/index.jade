@@ -8,7 +8,7 @@ block main-content
                     form.form_create.form_get-name(name="create", action="/dojo/create", method="post")
                         hr
                         .form-group
-                            select(name="selectedApplication")
+                            select.form-control.input-lg(name="selectedApplication")
                                 for item in applications
                                     option(value=item.id) #{item.name}
                         .form-group

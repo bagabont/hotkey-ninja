@@ -57,23 +57,27 @@
             }, 1000);
         },
 
-        first: true,
         isWinner: false,
 
         kick: function () {
-            if (this.first) {
-                this.walkToCenter();
-                this.first = false;
-            } else {
+            if(this.checkDistance()) {
                 Sounds.playKickSound();
                 mk.game._moveFighter(mk.game.fighters[0], _.sample(this.moves).toLowerCase().replace(/_/g, "-"));
             }
         },
-        opponentKick: function() {
-            if (this.first) {
+        checkDistance: function() {
+            var fighters = mk.game.fighters;
+            var p1 = fighters[0];
+            var p2 = fighters[1];
+            if (Math.abs(p1.getX() - p2.getX()) > 100) {
                 this.walkToCenter();
-                this.first = false;
-            } else {
+                return false;
+            }
+            return true;
+        },
+        opponentKick: function() {
+            if(this.checkDistance()) {
+                Sounds.playKickSound();
                 mk.game._moveFighter(mk.game.fighters[1], _.sample(this.moves).toLowerCase().replace(/_/g, "-"));
             }
         },
@@ -83,6 +87,7 @@
             mk.game.fighterDead(mk.game.fighters[i]);
             mk.game._moveFighter(mk.game.fighters[i], "fall");
             mk.game.fighters[i].setLife(0);
+            $(".player_" + (i + 1) + " .player__health-inner").width(0);
         },
 
         moves: [
