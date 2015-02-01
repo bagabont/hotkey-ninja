@@ -54,7 +54,7 @@
                 return {
                     _id: shortcut._id,
                     action: shortcut.action,
-                    combination: shortcut.combination,
+                    combination: shortcut.combination
                 };
             });
         }

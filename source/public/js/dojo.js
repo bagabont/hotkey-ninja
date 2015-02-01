@@ -27,7 +27,7 @@
                             keyName = String.fromCharCode(event.which);
                         }
 
-                        if(_.contains(_.keys(nameMap), keyName)) {
+                        if (_.contains(_.keys(nameMap), keyName)) {
                             keyName = nameMap[keyName];
                         }
                         return keyName.toLowerCase();
@@ -126,19 +126,19 @@
                     if (data.isCorrect) {
                         Fight.kick();
                         self.$question.addClass("success");
-                        setTimeout(function() {
+                        setTimeout(function () {
                             self.showQuestion();
                         }, 200);
                     } else {
                         self.$question.addClass("fail");
                         self.$question.find(".question__title").text(data.answer.replace("+", " + "));
-                        setTimeout(function() {
+                        setTimeout(function () {
                             self.showQuestion();
                         }, 500);
                     }
                 }
 
-                if (data.user !== self.name && data.isCorrect){
+                if (data.user !== self.name && data.isCorrect) {
                     Fight.opponentKick();
                 }
             });
@@ -159,7 +159,7 @@
                 self.socket.emit('join', self.getData());
                 return false;
             });
-            $(".btn-restart").on("click", function() {
+            $(".btn-restart").on("click", function () {
                 location.reload();
             });
         },
@@ -171,7 +171,7 @@
                 id: parts[2] + "/" + parts[3]
             };
         },
-        addQuestion: function(question) {
+        addQuestion: function (question) {
             this.questions.push(question);
         },
         showQuestion: function () {
